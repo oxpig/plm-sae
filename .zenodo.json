@@ -1,0 +1,18 @@
+{
+  "title": "plm-sae: code for Mechanistic Interpretability of Antibody Language Models Using SAEs",
+  "upload_type": "software",
+  "version": "1.0.0",
+  "license": "BSD-3-Clause",
+  "creators": [
+    {"name": "Haque, Rebonto", "affiliation": "Department of Statistics, University of Oxford, UK"},
+    {"name": "Turnbull, Oliver M.", "affiliation": "Department of Statistics, University of Oxford, UK"},
+    {"name": "Parsan, Anisha", "affiliation": "Reticular, San Francisco, USA; EECS, MIT, Cambridge MA, USA"},
+    {"name": "Parsan, Nithin", "affiliation": "Reticular, San Francisco, USA"},
+    {"name": "Yang, John J.", "affiliation": "Reticular, San Francisco, USA"},
+    {"name": "Beukenhorst, Anna L.", "affiliation": "Leyden Laboratories BV, Leiden, The Netherlands"},
+    {"name": "Deane, Charlotte M.", "affiliation": "Department of Statistics, University of Oxford, UK"}
+  ],
+  "description": "Code for the paper 'Mechanistic Interpretability of Antibody Language Models Using SAEs' (manuscript BIOINF-2026-1349). It trains TopK, Batch TopK and Ordered sparse autoencoders on the antibody language models p-IgGen, IgLM and ProGen2-OAS, identifies latents for heavy J genes and other antibody properties, runs the J-gene steering benchmark (highest-F1, baseline and output-selected latents), output-selected steering of CDRH3 properties and developability metrics, ablation and joint steering, and the generation-quality metrics, and regenerates the manuscript's tables and figures. The data (SAE weights, datasets, result tables and steered libraries) are deposited with an archived snapshot of this code at doi.org/10.5281/zenodo.23769036.",
+  "keywords": ["sparse autoencoders", "antibody language models", "mechanistic interpretability", "steering", "p-IgGen", "IgLM", "ProGen2-OAS"],
+  "notes": "Third-party models and tools (p-IgGen, IgLM, ProGen2, ANARCI, FlashTAP, AbLang-2, ESM-2) are not included; see docs/third_party.md."
+}

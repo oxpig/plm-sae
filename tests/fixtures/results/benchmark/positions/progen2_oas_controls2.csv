@@ -1,0 +1,37 @@
+model,arch,gene,rank,latent,matched_to,frac_fire,max_enrichment,peak_p05,onset_p05,lowidx
+progen2_oas,TopK,IGHJ1,-1,297,4993,0.306,1.2,50,28,False
+progen2_oas,TopK,IGHJ2,-1,6920,2838,0.444,1.247,103,71,False
+progen2_oas,TopK,IGHJ3,-1,10930,10305,0.084,1.145,94,39,False
+progen2_oas,TopK,IGHJ4,-1,10546,8218,0.492,1.214,108,104,False
+progen2_oas,TopK,IGHJ5,-1,10988,3604,0.402,1.227,98,62,False
+progen2_oas,TopK,IGHJ6,-1,6569,10151,0.499,1.209,116,116,False
+progen2_oas,TopK,IGHJ1,-1,2595,4993,0.468,1.19,50,28,False
+progen2_oas,TopK,IGHJ2,-1,1454,2838,0.451,1.176,103,71,False
+progen2_oas,TopK,IGHJ3,-1,6697,10305,0.326,1.116,94,39,False
+progen2_oas,TopK,IGHJ4,-1,9951,8218,0.102,1.213,108,104,False
+progen2_oas,TopK,IGHJ5,-1,4996,3604,0.307,1.109,98,62,False
+progen2_oas,TopK,IGHJ6,-1,10880,10151,0.318,1.154,116,116,False
+progen2_oas,Batch TopK,IGHJ1,-1,12005,6217,0.197,1.186,104,104,False
+progen2_oas,Batch TopK,IGHJ2,-1,1594,1216,0.342,1.141,95,48,False
+progen2_oas,Batch TopK,IGHJ3,-1,4459,7567,0.083,1.24,94,79,False
+progen2_oas,Batch TopK,IGHJ4,-1,9378,1850,0.289,1.223,112,111,False
+progen2_oas,Batch TopK,IGHJ5,-1,3236,2637,0.489,1.214,109,108,False
+progen2_oas,Batch TopK,IGHJ6,-1,4605,273,0.156,1.174,112,111,False
+progen2_oas,Batch TopK,IGHJ1,-1,5014,6217,0.275,1.212,104,104,False
+progen2_oas,Batch TopK,IGHJ2,-1,2125,1216,0.359,1.233,95,48,False
+progen2_oas,Batch TopK,IGHJ3,-1,4116,7567,0.099,1.247,94,79,False
+progen2_oas,Batch TopK,IGHJ4,-1,3385,1850,0.282,1.207,112,111,False
+progen2_oas,Batch TopK,IGHJ5,-1,12105,2637,0.273,1.149,109,108,False
+progen2_oas,Batch TopK,IGHJ6,-1,9305,273,0.327,1.202,112,111,False
+progen2_oas,Ordered,IGHJ1,-1,12012,10680,0.056,1.188,36,36,False
+progen2_oas,Ordered,IGHJ2,-1,2824,759,0.447,1.172,-1,-1,False
+progen2_oas,Ordered,IGHJ3,-1,11857,4036,0.081,1.2,-1,-1,False
+progen2_oas,Ordered,IGHJ4,-1,11469,1072,0.276,1.173,2,2,False
+progen2_oas,Ordered,IGHJ5,-1,1687,7991,0.242,1.211,28,28,False
+progen2_oas,Ordered,IGHJ6,-1,5492,11084,0.192,1.231,116,116,False
+progen2_oas,Ordered,IGHJ1,-1,1142,10680,0.281,1.245,36,36,False
+progen2_oas,Ordered,IGHJ2,-1,7770,759,0.306,1.241,-1,-1,False
+progen2_oas,Ordered,IGHJ3,-1,2630,4036,0.191,1.186,-1,-1,False
+progen2_oas,Ordered,IGHJ4,-1,1083,1072,0.312,1.164,2,2,False
+progen2_oas,Ordered,IGHJ5,-1,8298,7991,0.137,1.171,28,28,False
+progen2_oas,Ordered,IGHJ6,-1,11723,11084,0.346,1.223,116,116,False

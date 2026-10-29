@@ -1,0 +1,37 @@
+model,arch,gene,rank,latent,matched_to,frac_fire,max_enrichment,peak_p05,onset_p05,lowidx
+piggen,TopK,IGHJ1,-1,222,257,0.461,1.165,54,35,False
+piggen,TopK,IGHJ2,-1,3080,902,0.067,1.25,108,108,False
+piggen,TopK,IGHJ3,-1,5398,2884,0.247,1.189,110,109,False
+piggen,TopK,IGHJ4,-1,5040,5815,0.328,1.18,107,106,False
+piggen,TopK,IGHJ5,-1,5763,3938,0.472,1.235,108,108,False
+piggen,TopK,IGHJ6,-1,2832,968,0.479,1.169,110,109,False
+piggen,TopK,IGHJ1,-1,1458,257,0.22,1.045,54,35,False
+piggen,TopK,IGHJ2,-1,807,902,0.252,1.216,108,108,False
+piggen,TopK,IGHJ3,-1,2586,2884,0.059,1.189,110,109,False
+piggen,TopK,IGHJ4,-1,4614,5815,0.145,1.241,107,106,False
+piggen,TopK,IGHJ5,-1,1911,3938,0.361,1.237,108,108,False
+piggen,TopK,IGHJ6,-1,5722,968,0.316,1.215,110,109,False
+piggen,Batch TopK,IGHJ1,-1,5965,2937,0.45,1.126,68,35,False
+piggen,Batch TopK,IGHJ2,-1,731,2269,0.398,1.182,109,109,False
+piggen,Batch TopK,IGHJ3,-1,2861,3404,0.144,1.177,113,113,False
+piggen,Batch TopK,IGHJ4,-1,4784,55,0.47,1.17,106,105,False
+piggen,Batch TopK,IGHJ5,-1,1784,1824,0.447,1.215,107,107,False
+piggen,Batch TopK,IGHJ6,-1,2872,733,0.276,1.21,107,107,False
+piggen,Batch TopK,IGHJ1,-1,3196,2937,0.358,1.202,68,35,False
+piggen,Batch TopK,IGHJ2,-1,771,2269,0.472,1.186,109,109,False
+piggen,Batch TopK,IGHJ3,-1,2448,3404,0.371,1.232,113,113,False
+piggen,Batch TopK,IGHJ4,-1,2090,55,0.376,1.207,106,105,False
+piggen,Batch TopK,IGHJ5,-1,5917,1824,0.275,1.2,107,107,False
+piggen,Batch TopK,IGHJ6,-1,4594,733,0.051,1.239,107,107,False
+piggen,Ordered,IGHJ1,-1,5907,3887,0.099,1.18,37,37,False
+piggen,Ordered,IGHJ2,-1,3730,2979,0.391,1.082,25,15,False
+piggen,Ordered,IGHJ3,-1,5265,5504,0.406,1.083,21,17,False
+piggen,Ordered,IGHJ4,-1,5970,4900,0.229,1.194,108,107,False
+piggen,Ordered,IGHJ5,-1,2006,5575,0.081,1.192,82,82,False
+piggen,Ordered,IGHJ6,-1,4729,1877,0.307,1.12,117,117,False
+piggen,Ordered,IGHJ1,-1,1493,3887,0.446,1.219,37,37,False
+piggen,Ordered,IGHJ2,-1,5349,2979,0.246,1.235,25,15,False
+piggen,Ordered,IGHJ3,-1,3665,5504,0.066,1.22,21,17,False
+piggen,Ordered,IGHJ4,-1,772,4900,0.106,1.194,108,107,False
+piggen,Ordered,IGHJ5,-1,5370,5575,0.256,1.171,82,82,False
+piggen,Ordered,IGHJ6,-1,5958,1877,0.358,1.209,117,117,False

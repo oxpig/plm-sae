@@ -1,0 +1,34 @@
+# Modified from training/configs/train_default.yaml of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0 (plm_sae/training/NOTICE.md).
+# Settings shared by every SAE run. scripts/training/sae_runs.sh gives the overrides of each SAE of the paper.
+# The two config groups are chosen on the command line:
+#   datamodule=piggen | iglm | progen2_oas                  base model and its activation cache (default piggen)
+#   sae_trainer_cfg=top_k | batch_top_k | ordered           architecture (default top_k)
+defaults:
+  - datamodule: piggen
+  - sae_trainer_cfg: top_k
+  - _self_                           # the values below override those of the two groups
+
+sae_trainer_cfg:
+  activation_dim: ${datamodule.activation_dim}
+  dict_size: null                    # activation_dim * expansion_factor, set at run time
+  layer: ${datamodule.layer_number}
+  lm_name: ${datamodule.model_type}
+
+expansion_factor: 8
+
+# Training: one pass over the activation cache, batch_size tokens per step (the paper: one sequence per step and
+# +steps=100000, scripts/training/sae_runs.sh)
+epochs: 1
+batch_size: 2048
+seed: 0
+fix_batch_order: false
+
+# Checkpoints: <save_dir>/sae-step-<step>.ckpt every save_steps steps, and <save_dir>/<name>.safetensors + .json at the
+# end (the format of the data record, read by plm_sae.sae)
+save_dir: ${plm_sae.work:training,unnamed}
+name: sae
+save_steps: 100000
+log_steps: 100
+
+fast_dev_run: false
+computed: null

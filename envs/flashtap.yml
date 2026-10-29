@@ -1,0 +1,24 @@
+# FlashTAP environment (developability metrics PSH, PPC, PNC, SFvCSP). Versions of the environment that produced the
+# paper's developability results; FlashTAP numbers sequences with its own ANARCI and HMMER, pinned here.
+#   conda env create -f envs/flashtap.yml && conda activate plm-sae-flashtap   (scripts/env.sh puts the repository on PYTHONPATH)
+# Then set python_flashtap in configs/paths.yaml (or PLM_SAE_PYTHON_FLASHTAP) to this environment's python.
+name: plm-sae-flashtap
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10.14
+  - numpy=1.26.4
+  - pandas=2.2.2
+  - scipy=1.14.0
+  - biopython=1.85
+  - scikit-learn=1.7.2               # FlashTAP's calibrator is a pickled scikit-learn object (not a declared dependency)
+  - joblib=1.5.3
+  - threadpoolctl=3.6.0
+  - hmmer=3.4
+  - pip
+  - pip:
+      - torch==2.8.0
+      - pyyaml==6.0.3
+      - anarci==2026.2.13.2
+      - flash-abb==0.0.4

@@ -1,0 +1,19 @@
+model,arch,gene,rank,latent,matched_to,frac_fire,max_enrichment,peak_p05,onset_p05,lowidx
+piggen,TopK,IGHJ1,-1,1626,257,0.323,1.167,54,35,False
+piggen,TopK,IGHJ2,-1,4001,902,0.062,1.189,108,108,False
+piggen,TopK,IGHJ3,-1,3118,2884,0.273,1.22,110,109,False
+piggen,TopK,IGHJ4,-1,1841,5815,0.424,1.18,107,106,False
+piggen,TopK,IGHJ5,-1,254,3938,0.156,1.217,108,108,False
+piggen,TopK,IGHJ6,-1,5195,968,0.479,1.155,110,109,False
+piggen,Batch TopK,IGHJ1,-1,4439,2937,0.316,1.236,68,35,False
+piggen,Batch TopK,IGHJ2,-1,3183,2269,0.209,1.149,109,109,False
+piggen,Batch TopK,IGHJ3,-1,5531,3404,0.218,1.176,113,113,False
+piggen,Batch TopK,IGHJ4,-1,3997,55,0.264,1.172,106,105,False
+piggen,Batch TopK,IGHJ5,-1,3829,1824,0.194,1.149,107,107,False
+piggen,Batch TopK,IGHJ6,-1,5888,733,0.151,1.169,107,107,False
+piggen,Ordered,IGHJ1,-1,55,3887,0.056,1.2,37,37,False
+piggen,Ordered,IGHJ2,-1,4085,2979,0.236,1.146,25,15,False
+piggen,Ordered,IGHJ3,-1,5078,5504,0.483,1.2,21,17,False
+piggen,Ordered,IGHJ4,-1,225,4900,0.064,1.086,108,107,False
+piggen,Ordered,IGHJ5,-1,5703,5575,0.263,1.218,82,82,False
+piggen,Ordered,IGHJ6,-1,4814,1877,0.064,1.241,117,117,False

@@ -1,0 +1,10 @@
+# Added for this project to the Hydra configuration of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0
+# (plm_sae/training/NOTICE.md).
+defaults:
+  - base
+
+model_type: "progen2_oas"
+layer_number: 27
+activation_dim: 1536
+optimized_dir: ${plm_sae.activations:training,progen2oas_layer26}   # python -m plm_sae.activations.dump progen2_oas
+buckets_per_epoch: 185202

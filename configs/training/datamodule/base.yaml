@@ -1,0 +1,15 @@
+# Modified from training/configs/datamodule/base.yaml of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0 (plm_sae/training/NOTICE.md).
+# Activation cache of one base model (LitData, written by plm_sae.activations.dump). Each model's file sets the first
+# block of keys.
+model_type: null          # piggen | iglm | progen2_oas
+layer_number: null        # 1 + index of the last transformer block (the cache holds the final-layer-norm output)
+activation_dim: null      # d_model
+optimized_dir: null       # the LitData directory
+buckets_per_epoch: null   # length of the learning-rate schedule in records (training stops at the step count)
+toks_per_bucket: 2048     # batch_size / toks_per_bucket records per training step
+
+normalize_activations: true     # divide by the norm factor: sqrt(mean squared norm) of the first norm_factor_avging_steps records
+norm_factor_avging_steps: 100
+norm_factor: null               # null: computed at the start of the run (the values are in plm_sae.models.NORM_FACTOR)
+center_activations: false
+shuffle: true

@@ -1,0 +1,19 @@
+model,arch,gene,rank,latent,matched_to,frac_fire,max_enrichment,peak_p05,onset_p05,lowidx
+progen2_oas,TopK,IGHJ1,-1,2981,4993,0.469,1.108,50,28,False
+progen2_oas,TopK,IGHJ2,-1,9194,2838,0.142,1.195,103,71,False
+progen2_oas,TopK,IGHJ3,-1,7559,10305,0.137,1.239,94,39,False
+progen2_oas,TopK,IGHJ4,-1,3987,8218,0.455,1.172,108,104,False
+progen2_oas,TopK,IGHJ5,-1,285,3604,0.195,1.214,98,62,False
+progen2_oas,TopK,IGHJ6,-1,10649,10151,0.196,1.173,116,116,False
+progen2_oas,Batch TopK,IGHJ1,-1,9164,6217,0.146,1.099,104,104,False
+progen2_oas,Batch TopK,IGHJ2,-1,5271,1216,0.488,1.195,95,48,False
+progen2_oas,Batch TopK,IGHJ3,-1,11044,7567,0.324,1.192,94,79,False
+progen2_oas,Batch TopK,IGHJ4,-1,8182,1850,0.23,1.246,112,111,False
+progen2_oas,Batch TopK,IGHJ5,-1,6628,2637,0.25,1.107,109,108,False
+progen2_oas,Batch TopK,IGHJ6,-1,11768,273,0.496,1.203,112,111,False
+progen2_oas,Ordered,IGHJ1,-1,171,10680,0.384,1.137,36,36,False
+progen2_oas,Ordered,IGHJ2,-1,3513,759,0.453,1.244,-1,-1,False
+progen2_oas,Ordered,IGHJ3,-1,6770,4036,0.156,1.179,-1,-1,False
+progen2_oas,Ordered,IGHJ4,-1,345,1072,0.397,1.185,2,2,False
+progen2_oas,Ordered,IGHJ5,-1,10406,7991,0.213,1.156,28,28,False
+progen2_oas,Ordered,IGHJ6,-1,5834,11084,0.297,1.146,116,116,False

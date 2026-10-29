@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data, results, checkpoints and model weights live outside git (the data record; see paper/README.md)
+/data/
+/work/
+/cache/
+/logs/
+/third_party/*
+!/third_party/dictionary_learning/
+/external/
+*.ckpt
+*.safetensors
+*.pt
+*.bin
+*.npy
+*.npz
+*.pkl
+*.lmdb
+*.tar.gz
+*.zip
+
+# Backups and editor files
+*.bak*
+*.orig
+*.swp
+*~
+.DS_Store
+
+# Outputs written next to the code by mistake
+*.log
+*.out
+slurm-*.out

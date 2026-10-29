@@ -1,0 +1,10 @@
+# Added for this project to the Hydra configuration of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0
+# (plm_sae/training/NOTICE.md).
+defaults:
+  - base
+
+model_type: "iglm"
+layer_number: 4
+activation_dim: 512
+optimized_dir: ${plm_sae.activations:training,iglm_layer3}   # python -m plm_sae.activations.dump IgLM
+buckets_per_epoch: 185203

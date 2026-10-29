@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "plm-sae: code for Mechanistic Interpretability of Antibody Language Models Using SAEs"
+type: software
+version: 1.0.0
+license: BSD-3-Clause
+repository-code: "https://github.com/oxpig/plm-sae"
+authors:
+  - family-names: Haque
+    given-names: Rebonto
+    affiliation: "Department of Statistics, University of Oxford, UK"
+  - family-names: Turnbull
+    given-names: Oliver M.
+    affiliation: "Department of Statistics, University of Oxford, UK"
+  - family-names: Parsan
+    given-names: Anisha
+    affiliation: "Reticular, San Francisco, USA; EECS, MIT, Cambridge MA, USA"
+  - family-names: Parsan
+    given-names: Nithin
+    affiliation: "Reticular, San Francisco, USA"
+  - family-names: Yang
+    given-names: John J.
+    affiliation: "Reticular, San Francisco, USA"
+  - family-names: Beukenhorst
+    given-names: Anna L.
+    affiliation: "Leyden Laboratories BV, Leiden, The Netherlands"
+  - family-names: Deane
+    given-names: Charlotte M.
+    affiliation: "Department of Statistics, University of Oxford, UK"
+keywords:
+  - sparse autoencoders
+  - antibody language models
+  - mechanistic interpretability
+  - steering
+preferred-citation:
+  type: article
+  title: "Mechanistic Interpretability of Antibody Language Models Using SAEs"
+  authors:
+    - family-names: Haque
+      given-names: Rebonto
+    - family-names: Turnbull
+      given-names: Oliver M.
+    - family-names: Parsan
+      given-names: Anisha
+    - family-names: Parsan
+      given-names: Nithin
+    - family-names: Yang
+      given-names: John J.
+    - family-names: Beukenhorst
+      given-names: Anna L.
+    - family-names: Deane
+      given-names: Charlotte M.
+  notes: "Manuscript BIOINF-2026-1349. Journal, year and DOI to be added on publication."

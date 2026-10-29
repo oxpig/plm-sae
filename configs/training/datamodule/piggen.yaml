@@ -1,0 +1,10 @@
+# Added for this project to the Hydra configuration of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0
+# (plm_sae/training/NOTICE.md).
+defaults:
+  - base
+
+model_type: "piggen"
+layer_number: 4
+activation_dim: 768
+optimized_dir: ${plm_sae.activations:training,piggen_layer3_100k}   # python -m plm_sae.activations.dump piggen
+buckets_per_epoch: 180220

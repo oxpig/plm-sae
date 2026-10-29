@@ -1,0 +1,30 @@
+# Added for this project to the Hydra configuration of reticular-sae by John J. Yang (github.com/johnyang101/reticular-sae), Apache License 2.0
+# (plm_sae/training/NOTICE.md).
+# Ordered SAE (dictionary_learning.trainers.nested_dropout): nested dropout on a Batch TopK SAE, so that the leading
+# latents reconstruct the input on their own.
+dict_class: "NestedDropoutBatchTopKSAE"
+trainer_class: "OrderedTrainer"
+activation_dim: null   # from the datamodule (train.yaml)
+dict_size: null        # activation_dim * expansion_factor
+
+lr: 1e-4
+warmup_steps: 1000
+steps: null            # total_steps, set at run time
+decay_start: null
+auxk_alpha: 0.03125    # 1/32, as in Gao et al.
+threshold_beta: 0.999
+threshold_start_step: 1000
+
+seed: 0
+device: "cuda"
+layer: null
+lm_name: null
+k: 100
+
+# nested dropout: the number of leading latents kept at a step is drawn from a truncated geometric distribution with
+# p(L) / p(1) = p_L_over_p_1 (L = dictionary size); ortho_alpha weights a decoder orthonormality loss (0: none)
+p_L_over_p_1: 0.0001
+ortho_alpha: 0
+
+wandb_name: 'nested'
+submodule_name: null

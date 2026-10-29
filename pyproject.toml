@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plm-sae"
+version = "1.0.0"
+description = "Sparse autoencoders (TopK, Batch TopK, Ordered) on antibody language models: training, feature identification and steering, with the code that reproduces BIOINF-2026-1349."
+readme = "README.md"
+license = {text = "BSD-3-Clause"}
+requires-python = ">=3.10"
+authors = [{name = "Rebonto Haque"}]
+# Pinned versions are in environment.yml; these are the import-level requirements.
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "pyyaml",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+gpu = ["torch", "transformers", "tokenizers", "safetensors", "pytorch-lightning", "litdata", "hydra-core", "omegaconf", "einops"]
+test = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = [".", "third_party"]
+include = ["plm_sae*", "paper*", "dictionary_learning*"]
+
+[tool.setuptools.package-data]
+plm_sae = ["*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

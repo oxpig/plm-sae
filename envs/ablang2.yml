@@ -1,0 +1,19 @@
+# AbLang-2 environment (naturalness scores in Table 3 and Supplementary Tables 10 and 11). Versions of the environment that
+# produced the paper's AbLang-2 scores.
+#   conda env create -f envs/ablang2.yml && conda activate plm-sae-ablang2   (scripts/env.sh puts the repository on PYTHONPATH)
+# Then set python_ablang in configs/paths.yaml (or PLM_SAE_PYTHON_ABLANG) to this environment's python.
+name: plm-sae-ablang2
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10.14
+  - pandas=2.2.2
+  - scipy=1.14.0
+  - pip
+  - pip:
+      - numpy==2.2.6
+      - torch==2.8.0
+      - pyyaml==6.0.3
+      - einops==0.8.2
+      - rotary-embedding-torch==0.9.1
+      - ablang2==0.2.1
