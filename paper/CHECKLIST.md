@@ -3,7 +3,7 @@
 Every numbered figure and table of the manuscript (BIOINF-2026-1349), the command that produces it, the
 result file it reads, and whether it was reproduced from this repository and the data record.
 
-**Data record.** https://doi.org/10.5281/zenodo.23769036. After `paper/reproduce.sh setup RECORD_DIR`, result files sit
+**Data record.** https://doi.org/10.5281/zenodo.23813269. After `paper/reproduce.sh setup RECORD_DIR`, result files sit
 under `<results_dir>` (`data/results/` by default) in the layout the code writes; `results/results_<stage>.tar.gz` holds
 `<stage>/`. Datasets are `datasets/*.csv.gz`, SAE weights `checkpoints/<name>.safetensors`.
 
@@ -44,7 +44,7 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | 3 | `tab:steered_generation_analysis` | Batch TopK latent 733 library against natural sequences | `python -m paper.tables.table3_rows` | `quality/per_latent.csv`, `quality/per_library.csv`, `quality/ablang/` | Reproduced (6/6 rows) |
 | S4 | `tab:matched_training` | Matched SAEs, p-IgGen: learning rate, FVU, L0, dead latents, F1 range | `scripts/training/*`, `scripts/identification/run_reconstruction.sh` (GPU), `run_gate.sh` | `identification/reconstruction/recon_val_*.csv`, `identification/gates/` | Code present, not run. Caption statistics of the expansion-32 SAE: `identification/reconstruction/section41_stats.csv` (FVU 0.0088, L0 32.00, 32.98% never fired; `paper/scripts/identification/section41_analyses.sh stats`) |
 | S5 | `tab:matched_training_xmodel` | As S4, IgLM and ProGen2-OAS | as S4 | as S4 | Code present, not run |
-| S6 | `tab:margin_counts` | Latents above F1 margins, nine matched SAEs | `scripts/identification/run_gate.sh <sae> j` (CPU, up to 8 h each) | `identification/gates/<sae>/margin_sweep/counts_by_margin.csv` | Code present, not run |
+| S6 | `tab:margin_counts` | Latents above F1 margins, nine matched SAEs, J labels from the ANARCI heavy-chain J call | `scripts/identification/run_gate.sh <sae> j` (CPU, up to 8 h each) | `identification/gates/<sae>/margin_sweep/counts_by_margin.csv` | Code present, not run |
 | S7 | `tab:rl_perpair` | Per-pair detail of the highest-F1 latents | `python -m paper.tables.rl_perpair` | `benchmark/`, `progen2_t10/` | Reproduced (54/54 rows) |
 | S8 | `tab:rl_depth` | Passing latents among ranks 1, 1-2, 1-3 | `python -m paper.tables.rl_depth` | same | Reproduced (11/11 rows) |
 | S9 | `tab:gate` | Steering with and without the position gate | `python -m paper.tables.gate` | `benchmark/final_latents.csv` | Reproduced (5/5 rows and the numbers of the paragraph) |

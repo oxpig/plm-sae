@@ -9,7 +9,7 @@ Writes to OUT_DIR: prevalence.csv (n, pi and F1_all+ per class), counts_by_margi
 class and margin), latents_all_margins.csv and latents_margin_<m>.csv (the features).
 
 Run on existing F1 tables (the gates also call run_margin_sweep themselves):
-  python -m plm_sae.features.margin_sweep --f1_dir GATE/f1_scores --label_csv VAL_CSV --label_col heavy_j_gene \
+  python -m plm_sae.features.margin_sweep --f1_dir GATE/f1_scores --label_csv VAL_CSV --label_col j_gene_anarci_heavy \
       [--out_dir DIR] [--margins 0.10 0.15 0.20 0.25]"""
 import argparse
 import glob
@@ -102,7 +102,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--f1_dir", required=True)
     p.add_argument("--label_csv", required=True)
-    p.add_argument("--label_col", default="heavy_j_gene")
+    p.add_argument("--label_col", default="j_gene_anarci_heavy")
     p.add_argument("--out_dir")
     p.add_argument("--margins", nargs="+", type=float, default=MARGINS)
     a = p.parse_args()

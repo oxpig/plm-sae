@@ -52,7 +52,7 @@ Supplementary "Output-selected latents" (identity >= 0.8, proportion over all ge
 
 | set | label in result files | selection |
 |---|---|---|
-| highest F1 | `f1` | the three latents of highest validation F1 for the gene (matched SAEs: F1 of the mean activation over all positions against the dataset's J labels; expansion-32 TopK SAE: against ANARCI-assigned J genes) |
+| highest F1 | `f1` | the three latents of highest validation F1 for the gene (matched SAEs: F1 of the mean activation over all positions against the ANARCI J call, `j_gene_anarci_heavy` with the allele removed; expansion-32 TopK SAE: against ANARCI-assigned J genes) |
 | baseline | `baseline` | random latents that fire in 5 to 50% of the selection pool, at a rate within 1.25-fold of their overall rate for every J gene, and not steered in any other set |
 | output-selected | `output` | the three highest output scores (section 5) among latents firing in at least 1% of the same selection pool |
 

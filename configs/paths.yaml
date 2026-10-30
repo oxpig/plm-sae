@@ -1,7 +1,7 @@
 # Locations used by the code. Relative paths are relative to the repository root. An environment variable
 # PLM_SAE_<KEY> overrides a key (for example PLM_SAE_DATA_DIR=/data/plm-sae). `python -m plm_sae.paths` prints them.
 
-data_dir: data                          # the unpacked data record (https://doi.org/10.5281/zenodo.23769036)
+data_dir: data                          # the unpacked data record (https://doi.org/10.5281/zenodo.23813269)
 results_dir: null                       # result tables read by paper/tables and paper/figures (null: <data_dir>/results)
 work_dir: work                          # outputs of pipeline runs
 progen2_dir: external/progen/progen2    # progen2/ of the salesforce/progen clone, with checkpoints/progen2-oas/

@@ -8,7 +8,10 @@ SAE latents that track antibody properties such as the heavy J gene, and steers 
 three SAE architectures: TopK, Batch TopK and Ordered.
 
 Data (datasets, SAE checkpoints, results and steered libraries) and an archived snapshot of this code are on Zenodo:
-**https://doi.org/10.5281/zenodo.23769036**.
+**https://doi.org/10.5281/zenodo.23813269**.
+
+This branch (`anarci-ranking`) ranks the latents of the nine hyperparameter-matched SAEs against the ANARCI
+heavy-chain J call, and its Zenodo record holds the results that follow from that ranking.
 
 ## Layout (key pieces)
 - `plm_sae/`: pipeline code (activations, SAE training, feature identification, steering, ANARCI numbering).
@@ -101,6 +104,8 @@ The same steps work for all three architectures. SAEs are named `<model>_<archit
    - Note: run once with `train` and once with `val`.
 4. Run feature identification:
    - `bash scripts/identification/run_gate.sh <sae_name>`
+   - The J-gene label is the ANARCI heavy-chain J call (`j_gene_anarci_heavy` of `vj_{train,val}_anarci.csv`, allele
+     removed), the same label as in the Section 4.1 gate.
    - Top latents per J gene: `python -m plm_sae.features.rank <work_dir>/identification/gates/<sae_name> --top_n 3`
 5. (Alternative to step 4) Pick output-selected latents, whose decoder vectors raise the output logits of a J gene's
    residues:

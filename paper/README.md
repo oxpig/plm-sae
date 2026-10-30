@@ -10,7 +10,7 @@ adds the steering benchmark, the supplementary analyses and the table and figure
    conda env create -f envs/ablang2.yml     # then set python_ablang in configs/paths.yaml to its python
    conda env create -f envs/flashtap.yml    # then set python_flashtap in configs/paths.yaml to its python
    ```
-2. Download the files of the Zenodo record (https://doi.org/10.5281/zenodo.23769036) into a folder `<record_dir>`:
+2. Download the files of the Zenodo record (https://doi.org/10.5281/zenodo.23813269) into a folder `<record_dir>`:
    `datasets.tar`, `checkpoints.tar`, `results.tar` and `libraries.tar` (the last is needed only for its unsteered
    reference libraries and to rescore steered libraries).
 3. Unpack the datasets, checkpoints, reference libraries and result tables into `<data_dir>` (CPU, a few minutes,
@@ -66,7 +66,9 @@ from the property baselines).
 1. `bash scripts/extraction/encode.sh <sae> train|val` for the nine SAEs, and `... <p-IgGen sae> train|val vhvl` for
    the light-chain-type gate (GPU).
 2. `bash scripts/identification/run_gate.sh <sae> [j|lct]` (CPU, up to 8 h): J-gene gates (Supplementary Tables 4-6)
-   and light-chain-type gates (Supplementary Section A.7).
+   and light-chain-type gates (Supplementary Section A.7). The J-gene gates label each sequence with its ANARCI
+   heavy-chain J call (`j_gene_anarci_heavy`, allele removed), so the latent ranking, the pair lists of step 3 and
+   everything the benchmark steers follow the ANARCI call.
 3. `bash paper/scripts/identification/make_pair_lists.sh`: the ranked latents the benchmark steers.
 4. `bash scripts/identification/run_reconstruction.sh <model>` (GPU): FVU, L0 and dead latents (Supplementary
    Tables 4 and 5) and the firing counts used by the developability counts and the redundancy analysis.

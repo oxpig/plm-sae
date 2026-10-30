@@ -13,7 +13,8 @@ margin_sweep/.
 
 Run: python -m plm_sae.features.gate TRAIN_DIR TRAIN_CSV VAL_DIR VAL_CSV LABEL_COL OUT_DIR [--top_k N]
      [--sample_n N --sample_seed S] [--thresholds ...] [--margins ...] [--cpus N]
-(scripts/identification/run_gate.sh sets the paper's settings: every latent scored, 10,000 training sequences.)"""
+(scripts/identification/run_gate.sh sets the paper's settings: every latent scored, 10,000 training sequences, and
+the ANARCI heavy-chain J call, j_gene_anarci_heavy, as the J-gene label.)"""
 import argparse
 import glob
 import os
