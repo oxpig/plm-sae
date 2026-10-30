@@ -15,7 +15,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../env.sh" || exit 1
 [ $# -ge 3 ] || { echo "usage: $0 UNITS WORKDIR TAG [NT] [C]"; exit 1; }
 mkdir -p "$2"; U=$(realpath "$1"); W=$(realpath "$2"); TAG=$3; NT=${4:-3}; C=${5:-32}
 rm -f "$W"/res_*.pkl "$W/HI_DONE"
-"$PY" -m plm_sae.numbering.number collect "$U" "$W" | tee "$W/collect.log"
+set -o pipefail
+"$PY" -m plm_sae.numbering.number collect "$U" "$W" | tee "$W/collect.log" || exit 1
 PART=${ANARCI_PARTITION:-$PLM_SAE_SLURM_CPU_PARTITION}
 SB=(sbatch --parsable --export=ALL ${PLM_SAE_SLURM_CLUSTER:+--clusters=$PLM_SAE_SLURM_CLUSTER} ${PART:+--partition=$PART})
 # job scripts: hmmscan from the environment's bin directory, single-threaded (the parallelism is over sequences)

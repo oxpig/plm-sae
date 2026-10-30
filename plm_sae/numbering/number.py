@@ -17,6 +17,7 @@ hmmscan runs single-threaded (HMMER_NCPU=1); anarci.get_identity is replaced by 
 import ast
 import contextlib
 import csv
+import importlib
 import io
 import os
 import pickle
@@ -53,7 +54,9 @@ def get_identity(state_sequence, germline_sequence):
 
 
 def _anarci():
-    import anarci.anarci as A
+    # The module, not the name: ANARCI's __init__ runs `from .anarci import *`, which rebinds the package attribute
+    # anarci.anarci to the function, so `import anarci.anarci as A` would return the function.
+    A = importlib.import_module("anarci.anarci")
     A.get_identity = get_identity
     return A.anarci
 
@@ -66,7 +69,8 @@ def paths(d, lat, gene, alpha, seed, features=None, total=1000):
 
 
 def write_alignment(results, savepath):
-    """ANARCI alignment details -> CSV, one row per hit, 'key: value' cells."""
+    """ANARCI alignment details -> CSV, one row per hit, 'key: value' cells. A library without any numbered chain gets an
+    empty file, so that its formatted table is empty (zero numbered chains) rather than missing."""
     valid_results = []
     for item in results:
         if item is not None:
@@ -75,9 +79,8 @@ def write_alignment(results, savepath):
                     valid_results.append([f"{k}: {v}" for k, v in entry.items()])
             else:
                 valid_results.append([str(item)])
-    if valid_results:
-        with open(savepath, "w", newline="") as file:
-            csv.writer(file).writerows(valid_results)
+    with open(savepath, "w", newline="") as file:
+        csv.writer(file).writerows(valid_results)
     return valid_results
 
 

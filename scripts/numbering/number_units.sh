@@ -7,6 +7,7 @@
 # Usage: scripts/numbering/number_units.sh UNITS WORKDIR [NCPU]     (UNITS lines: "dir latent gene alpha seed")
 # For many libraries, paper/scripts/benchmark/anarci_array.sh spreads the number step over several nodes.
 source "$(dirname "${BASH_SOURCE[0]}")/../env.sh" || exit 1
+set -o pipefail   # a failed step must stop here (each step's output goes through tee), before HI_DONE is written
 U=$(realpath "$1"); W=$2; C=${3:-${SLURM_CPUS_PER_TASK:-32}}
 [ -f "$W/HI_DONE" ] && { echo "$W already numbered"; exit 0; }
 mkdir -p "$W"; rm -f "$W"/res_*.pkl
