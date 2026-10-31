@@ -127,7 +127,7 @@ Tables 10 and 11, Supplementary Figure 4).
 ## Ablation and redundancy
 `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU, 40 tasks), then
 `python -m paper.analyses.ablation.score` (Supplementary Tables 17 and 18). `paper/scripts/redundancy/run.sh`:
-dictionary redundancy (Supplementary Table 16). The 22 co-activation groups are an input of the record
+dictionary redundancy (Supplementary Table 16). The 20 co-activation groups are an input of the record
 (`redundancy/coactivation_groups.txt`).
 
 ## Tables and figures

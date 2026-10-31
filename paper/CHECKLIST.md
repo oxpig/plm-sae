@@ -70,14 +70,14 @@ checks Supplementary Table 11 and the binder numbers against the manuscript.
 | Item | Command | Status |
 |---|---|---|
 | Section 4.2.1, expansion-32 TopK SAE: 6 of 18 latents, genes IGHJ1, IGHJ3, IGHJ4 | `python -m paper.tables.section41_steering` | Reproduced |
-| Sections 4.2.3 and 4.3, Mantel-Haenszel p (0.52, 0.28, 0.68; output-selected < 0.001) | `python -m paper.tables.benchmark_tests` | Reproduced |
+| Sections 4.2.3 and 4.3, Mantel-Haenszel p (1.0, 0.28, 0.41; output-selected < 0.001) | `python -m paper.tables.benchmark_tests` | Reproduced |
 | Sections 4.2.3 and 4.3, library medians | `python -m paper.tables.table3_rows` | Reproduced |
-| A.3 position gate paragraph (15 and 12 of 54, p = 0.45; TV 0.095 and 0.024, 0.087 and 0.023; IgLM 22 to 12, 39 to 21) | `python -m paper.tables.gate` | Reproduced |
+| A.3 position gate paragraph (15 and 13 of 54, p = 0.69; baseline 16 and 14; TV 0.101 and 0.024, 0.087 and 0.023; IgLM 22 to 11, 39 to 25, 16 to 15) | `python -m paper.tables.gate` | Reproduced |
 | A.4 output-selected latents (54 J-gene, 12 developability, 9 CDRH3 sets) | `python -m paper.benchmark.check_picks` | Reproduced |
-| A.4 stricter readout (36, 33, 35; 10, 4, 8; 5, 3, 12) | `python -m paper.benchmark.strict summary` | Reproduced |
-| A.4 CDRH3 homopolymers (17.2 and 9.7 points) | `python -m paper.benchmark.homopolymer summary` | Reproduced |
-| A.4 natural scale (19.5 times) | `python -m paper.benchmark.natural_scale compare` | Reproduced |
-| A.4 windowed steering (11 and 9; 14 and 11; 41 and 25) | `python -m paper.tables.benchmark_tests` | Reproduced |
+| A.4 stricter readout (36, 33, 35; 10, 4, 8; 6, 4, 12) | `python -m paper.benchmark.strict summary` | Reproduced |
+| A.4 CDRH3 homopolymers (17.1 and 8.9 points) | `python -m paper.benchmark.homopolymer summary` | Reproduced |
+| A.4 natural scale (21.8 times) | `python -m paper.benchmark.natural_scale compare` | Reproduced |
+| A.4 windowed steering (10 and 10; 13 and 10; 40 and 25) | `python -m paper.tables.benchmark_tests` | Reproduced |
 | A.4 generation quality by set | `python -m paper.analyses.quality.by_set pool` | Reproduced |
 | A.8 joint steering | `python -m paper.tables.joint_steering` | Reproduced |
 | A.11 binder status | `python -m paper.analyses.binder.probe report --tex manuscript.tex`; rerun: `paper/scripts/binder/probe.sh` | Reproduced (10/10 numbers) |
