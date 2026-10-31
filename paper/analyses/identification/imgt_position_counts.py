@@ -18,7 +18,7 @@ from paper.analyses.identification.imgt import CANONICAL_NUMBERING, build_alignm
 from paper.analyses.identification.localisation import row_of
 
 NPOS = len(CANONICAL_NUMBERING)
-SETS = [("IgLM", "iglm_topk_r8", 2, [3036, 1565, 2705]), ("ProGen2-OAS", "progen2oas_topk_r8", 1, [8218, 2303, 9879])]
+SETS = [("IgLM", "iglm_topk_r8", 2, [3036, 1565, 2705]), ("ProGen2-OAS", "progen2oas_topk_r8", 1, [8218, 2303, 6405])]
 
 
 def work(chunk):

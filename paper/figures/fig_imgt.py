@@ -50,7 +50,7 @@ def main():
     for c, (sub, arch, title) in enumerate(zip(fig.subfigures(1, 2, wspace=0.03), ("Ordered", "TopK"),
                                                (r"(a) Ordered, top $F_1$", r"(b) TopK, top $F_1$"))):
         sub.suptitle(title, fontsize=8); axes = sub.subplots(3, 1)
-        for r, (gene, o, t) in enumerate([("IGHJ2", 2979, 902), ("IGHJ4", 4900, 5815), ("IGHJ5", 5575, 3938)]):
+        for r, (gene, o, t) in enumerate([("IGHJ2", 3528, 902), ("IGHJ4", 4900, 5815), ("IGHJ5", 4939, 4676)]):
             lid = o if arch == "Ordered" else t
             print(gene, arch, lid, panel(axes[r], mass[arch][f"{gene}_{lid}"], lid, c == 0))
     fig.savefig(f"{out}/fig_imgt_ordered_topk.png", dpi=400); plt.close(fig)
@@ -59,7 +59,7 @@ def main():
     fig = plt.figure(figsize=(6.9, 3.4), layout="constrained")
     for sub, (model, title, lats) in zip(fig.subfigures(2, 1, hspace=0.04),
                                          [("IgLM", "(a) IgLM", [3036, 1565, 2705]),
-                                          ("ProGen2-OAS", "(b) ProGen2-OAS", [8218, 2303, 9879])]):
+                                          ("ProGen2-OAS", "(b) ProGen2-OAS", [8218, 2303, 6405])]):
         sub.suptitle(title, fontsize=8); axes = sub.subplots(1, 3)
         for c, lid in enumerate(lats):
             print(model, lid, panel(axes[c], d[f"{model}|{lid}"]["mass"], lid, c == 0, TIX3))

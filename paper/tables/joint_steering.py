@@ -3,7 +3,7 @@ does not translate into joint control"): the numbers of the paragraph, from benc
 Prints key: value lines and writes <work_dir>/tables/joint_steering.json:
   joint_n / joint_corr / joint_mag      groups steered / passing the correlation / both criteria
   joint_pass_<i>                        passing groups: arch|gene|phi|group size|baseline %|achieved %|candidate latent
-  joint_1824                            groups around Batch TopK latent 1824: corr / both / groups
+  joint_733                             groups around Batch TopK latent 733: corr / both / groups
   joint_<phi>_n, _mag, _corr            per phi threshold: SAE-gene pairs with a group, groups passing
   joint_<phi>_cand_mag, _cand_corr      the group's candidate latent (the pair's highest-F1 latent) steered alone
   joint_<phi>_vs_cand_p                 exact McNemar p (two-sided, paired by SAE-gene pair), group vs candidate, both criteria
@@ -44,8 +44,8 @@ def main():
     for i, e in enumerate(JT[ok(JT.paper_mag)].sort_values(["phi", "arch", "target"]).itertuples()):
         put(f"joint_pass_{i}", f"{e.arch}|{e.target}|{e.phi}|{len(str(e.members).split('+'))}|{100 * e.paper_base:.1f}|"
                                f"{100 * e.paper_ach:.1f}|{int(e.latent)}")
-    c1824 = JT[JT.latent == 1824]
-    put("joint_1824", f"{ok(c1824.paper_corr).sum()}/{ok(c1824.paper_mag).sum()}/{len(c1824)}")
+    c733 = JT[JT.latent == 733]
+    put("joint_733", f"{ok(c733.paper_corr).sum()}/{ok(c733.paper_mag).sum()}/{len(c733)}")
     put("joint_n", str(len(JT)))
     put("joint_corr", str(ok(JT.paper_corr).sum()))
     put("joint_mag", str(ok(JT.paper_mag).sum()))
