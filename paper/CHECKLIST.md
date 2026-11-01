@@ -54,9 +54,9 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S13 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 13, 23, 11, 6, 26) |
 | S14 | `tab:localisation` | J-region share of the highest-F1 latent per gene | `paper/scripts/identification/run_imgt.sh` (CPU, 40 processes) | `identification/imgt/localisation.csv` | Record values match |
 | S15 | `tab:lct_steering` | Light-chain-type steering | `python -m paper.tables.lct_steering` | `benchmark/final_latents.csv` | Reproduced (18/18 rows) |
-| S16 | `tab:splitting` | Dictionary redundancy, nine matched SAEs | `paper/scripts/redundancy/run.sh` | `redundancy/redundancy.csv` | Code present, not run |
-| S17 | `tab:ablation_single` | Single-latent ablation | `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU), `python -m paper.analyses.ablation.score` | `ablation/results/ablation.csv` | Code present, not run |
-| S18 | `tab:ablation_cluster` | Co-activation group ablation | as S17 | as S17 | Code present, not run |
+| S16 | `tab:splitting` | Dictionary redundancy, nine matched SAEs | `paper/scripts/redundancy/run.sh` | `redundancy/redundancy.csv` | Record values match |
+| S17 | `tab:ablation_single` | Single-latent ablation | `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU), `python -m paper.analyses.ablation.score` | `ablation/results/ablation.csv` | Record values match |
+| S18 | `tab:ablation_cluster` | Co-activation group ablation | as S17 | as S17 | Record values match |
 | S19 | `tab:dev_counts` | Developability latents per SAE | `python -m paper.tables.dev_counts` | `developability/counts/dev_latent_counts.csv` | Reproduced (9/9 rows) |
 | S20 | `tab:dev_latents` | Developability steering, every latent | `python -m paper.tables.outsel_properties` | `outsel_properties/results_dev.csv` | Reproduced (24/24 rows) |
 | S21 | `tab:graded` | Graded CDRH3 steering, passes per set | same | `outsel_properties/results_graded.csv` | Reproduced (9/9 rows) |
