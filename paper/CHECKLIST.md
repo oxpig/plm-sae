@@ -51,7 +51,7 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S10 | `tab:t3_output` | Output-selected TopK latent 5141 library against natural sequences | `python -m paper.tables.table3_rows` | as Table 3 | Reproduced (6/6 rows) |
 | S11 | `tab:t3_batch` | Quality of every passing library per model, SAE and set | `python -m paper.analyses.quality.by_set check --tex manuscript.tex` | `quality/` | Reproduced (462/462 cells) |
 | S12 | `tab:IGHJ4_layer_performance` | IGHJ4 features and max F1, p-IgGen layers 0-3 | `paper/scripts/identification/section41_gate.sh <layer>` | `identification/gates/piggen_topk_r32_layer{0,1,2,3}/` | Record values match (features 2, 12, 13, 11; max F1 0.885, 0.960, 0.967, 0.878) |
-| S13 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 13, 23, 11, 6, 26) |
+| S13 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 14, 30, 11, 7, 40; every latent scored) |
 | S14 | `tab:localisation` | J-region share of the highest-F1 latent per gene | `paper/scripts/identification/run_imgt.sh` (CPU, 40 processes) | `identification/imgt/localisation.csv` | Record values match |
 | S15 | `tab:lct_steering` | Light-chain-type steering | `python -m paper.tables.lct_steering` | `benchmark/final_latents.csv` | Reproduced (18/18 rows) |
 | S16 | `tab:splitting` | Dictionary redundancy, nine matched SAEs | `paper/scripts/redundancy/run.sh` | `redundancy/redundancy.csv` | Record values match |
@@ -69,6 +69,7 @@ checks Supplementary Table 11 and the binder numbers against the manuscript.
 
 | Item | Command | Status |
 |---|---|---|
+| Section 4.1 CDR identity probe, IMGT CDRs (latents 0.999, neurons 0.998) | `paper/scripts/identification/section41_analyses.sh cdr` (GPU) -> `identification/cdr_probe/` | Record values match |
 | Section 4.2.1, expansion-32 TopK SAE: 6 of 18 latents, genes IGHJ1, IGHJ3, IGHJ4 | `python -m paper.tables.section41_steering` | Reproduced |
 | Sections 4.2.3 and 4.3, Mantel-Haenszel p (1.0, 0.28, 0.41; output-selected < 0.001) | `python -m paper.tables.benchmark_tests` | Reproduced |
 | Sections 4.2.3 and 4.3, library medians | `python -m paper.tables.table3_rows` | Reproduced |

@@ -1,87 +1,107 @@
-"""CDR residue-identity probe of the TopK SAE of Section 4.1 (Section 4.1: validation accuracy 0.96 for the latents).
-Per residue of the CDR-masked sequences (CDR_Mask of datasets/CDR_{training,validation}.csv; 600 training and 1,000
-validation sequences), the SAE's top-32 latents at that position (input: output of p-IgGen block 3) are the features
-and the amino acid is the label: one-vs-rest logistic regression (liblinear), C in {0.1, 1, 10} by 3-fold
-cross-validation on accuracy, accuracy on the validation residues.
-Outputs in --outdir (default <work_dir>/identification/cdr_probe): cdr_probe_{train,val}_latents.csv.gz,
-cdr_probe_metrics.txt (val_accuracy). Usage: python -m paper.analyses.identification.cdr_identity_probe (GPU)"""
-import argparse, gc, os
-import numpy as np, pandas as pd, torch
+"""CDR residue-identity probe of Section 4.1: does a linear probe on the SAE latents (or on the hidden neurons) tell which
+CDR, if any, a residue lies in?
+
+Input: the paired sequence of each row ("1" + VH + VL + "2", the text column of datasets/CDR_{training,validation}.csv,
+padded to 350 tokens), first 600 training and 1,000 validation rows. Site: output of p-IgGen block 3 (gpt_neox.layers[3],
+before the final layer norm). Features per residue: the top-32 latents of the expansion-32 TopK SAE
+(piggen_topk_r32_layer3) at that position, or the 768 hidden neurons. Label per residue, 7 classes: CDRH1-3, CDRL1-3 or
+none, with IMGT boundaries (ANARCI, IMGT scheme: CDR1 27-38, CDR2 56-65, CDR3 105-117; --labels imgt, the paper) or the
+dataset's own annotation (CDR_Mask; --labels dataset). One-vs-rest logistic regression (liblinear), C in {0.1, 1, 10}
+by 3-fold cross-validation on accuracy, accuracy on the validation residues.
+Outputs in --outdir (default <work_dir>/identification/cdr_probe): cdr_probe_<features>_<labels>_metrics.txt.
+Usage: python -m paper.analyses.identification.cdr_identity_probe [--labels imgt|dataset|both] (GPU)"""
+import argparse
+import os
+
+import numpy as np
+import pandas as pd
+import scipy.sparse as sp
+import torch
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
 from plm_sae import models, paths as P, sae as S
 
-SPECIAL = {"1", "2", "*", "X"}
+IMGT_CDRS = ((27, 38), (56, 65), (105, 117))
 
 
-def pad_sequence(seq, max_length=350):
-    return f"1{seq}2".ljust(max_length, "*")
+def imgt_labels(vh, vl, ncpu):
+    """Per residue of vh + vl: 'A'/'B'/'C' heavy CDR1-3, 'Z'/'Y'/'W' light CDR1-3, '-' elsewhere (IMGT, ANARCI)."""
+    from anarci import anarci
+    out = []
+    num_h, _, _ = anarci(list(enumerate(vh)), scheme="imgt", output=False, ncpu=ncpu)
+    num_l, _, _ = anarci(list(enumerate(vl)), scheme="imgt", output=False, ncpu=ncpu)
+    for h, l, nh, nl in zip(vh, vl, num_h, num_l):
+        lab = ["-"] * (len(h) + len(l))
+        for seq_num, off, syms in ((nh, 0, "ABC"), (nl, len(h), "ZYW")):
+            if not seq_num:
+                continue
+            residues, k, _ = seq_num[0]
+            for (pos, _ins), aa in residues:
+                if aa == "-":
+                    continue
+                for s, (lo, hi) in zip(syms, IMGT_CDRS):
+                    if lo <= pos <= hi:
+                        lab[off + k] = s
+                k += 1
+        out.append("".join(lab))
+    return out
 
 
-def build_latent_table(csv_path, num_seq, bs, dev, sae):
+def residue_table(df, bs, dev, sae, features):
+    """Sparse feature matrix, one row per residue position (token positions 1..n) of the given rows."""
     model, tok = models.load("piggen", dev)
     cap = []
     model.gpt_neox.layers[3].register_forward_hook(
-        lambda m, i, o: cap.append((o[0] if isinstance(o, tuple) else o).detach().float())
-    )
-    df_seq = pd.read_csv(csv_path)[["CDR_Mask"]].iloc[:num_seq]
-    padded = df_seq["CDR_Mask"].apply(pad_sequence)
-    aa = np.array([list(s) for s in padded])  # (num_seq, 350)
-    rows = []
-    for s0 in range(0, num_seq, bs):
-        s1 = min(s0 + bs, num_seq)
-        texts = list(padded.iloc[s0:s1])
-        toks = tok(texts, padding="max_length", truncation=True, max_length=350,
-                    return_tensors="pt")
-        ids = toks["input_ids"].to(dev)
+        lambda m, i, o: cap.append((o[0] if isinstance(o, tuple) else o).detach().float()))
+    texts, mats = df["text"].tolist(), []
+    for s0 in range(0, len(texts), bs):
+        batch = texts[s0:s0 + bs]
+        toks = tok(["1" + t + "2" for t in batch], padding="max_length", truncation=True, max_length=350,
+                   return_tensors="pt")
         cap.clear()
         with torch.no_grad():
-            model(input_ids=ids)
-            x = cap[0]  # raw pre-LN block output, (B, T, 768)
-            v, idx = sae.topk(x)
-        v = v.cpu().numpy()
-        idx = idx.cpu().numpy()
-        for bi in range(s1 - s0):
-            seq_i = s0 + bi
-            for t in range(350):
-                a = aa[seq_i, t]
-                if a in SPECIAL:
-                    continue
-                d = {f"Neuron_{int(idx[bi, t, k])}": float(v[bi, t, k]) for k in range(v.shape[-1]) if v[bi, t, k] > 1e-6}
-                d["AminoAcid"] = a
-                d["sequence_idx"] = seq_i
-                d["position_idx"] = t
-                rows.append(d)
+            model(input_ids=toks["input_ids"].to(dev))
+            x = cap[0]                                           # (B, 350, 768)
+            if features == "latents":
+                v, idx = sae.topk(x)
+        for b, t in enumerate(batch):
+            n = min(len(t), 348)
+            if features == "latents":
+                vv, ii = v[b, 1:n + 1].cpu().numpy(), idx[b, 1:n + 1].cpu().numpy()
+                keep = vv > 1e-6
+                rows = np.repeat(np.arange(n), keep.sum(1))
+                mats.append(sp.csr_matrix((vv[keep], (rows, ii[keep])), shape=(n, sae.W_enc.shape[0])))
+            else:
+                mats.append(sp.csr_matrix(x[b, 1:n + 1].cpu().numpy()))
         if (s0 // bs) % 20 == 0:
-            print(f"[{csv_path}] {s0}/{num_seq}", flush=True)
+            print(f"  {features}: {s0 + len(batch)}/{len(texts)}", flush=True)
     del model
     torch.cuda.empty_cache()
-    return pd.DataFrame(rows).fillna(0.0)
+    return sp.vstack(mats).tocsr()
 
 
-def train_eval(train_df, val_df, tag, outdir):
-    drop_cols = [c for c in ["AminoAcid", "sequence_idx", "position_idx"] if c in train_df.columns]
-    X_train = train_df.drop(columns=drop_cols)
-    y_train = train_df["AminoAcid"]
-    X_val = val_df.drop(columns=[c for c in drop_cols if c in val_df.columns])
-    y_val = val_df["AminoAcid"]
-    all_feats = X_train.columns.union(X_val.columns)
-    X_train = X_train.reindex(columns=all_feats, fill_value=0)
-    X_val = X_val.reindex(columns=all_feats, fill_value=0)
+def flat(labels):
+    return np.concatenate([np.array(list(s[:min(len(s), 348)])) for s in labels])
+
+
+def train_eval(Xtr, ytr, Xva, yva, tag, outdir):
+    if Xtr.shape[1] > 768:                                       # latents: the ones active in training
+        used = np.unique(Xtr.nonzero()[1])
+        Xtr, Xva = Xtr[:, used], Xva[:, used]
     clf = LogisticRegression(multi_class="ovr", solver="liblinear", max_iter=1000)
     cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-    gs = GridSearchCV(clf, {"C": [0.1, 1, 10]}, cv=cv, scoring="accuracy", n_jobs=-1)
-    gs.fit(X_train, y_train)
-    y_pred = gs.best_estimator_.predict(X_val)
-    acc = accuracy_score(y_val, y_pred)
-    macro_f1 = f1_score(y_val, y_pred, average="macro")
-    print(f"{tag}: n_features={X_train.shape[1]} best_C={gs.best_params_['C']} val_acc={acc:.4f} macro_f1={macro_f1:.4f}")
+    gs = GridSearchCV(clf, {"C": [0.1, 1, 10]}, cv=cv, scoring="accuracy", n_jobs=int(os.environ.get("SLURM_CPUS_PER_TASK", 4)))
+    gs.fit(Xtr, ytr)
+    pred = gs.best_estimator_.predict(Xva)
+    acc, mf1 = accuracy_score(yva, pred), f1_score(yva, pred, average="macro")
+    maj = (yva == pd.Series(ytr).mode()[0]).mean()
+    print(f"{tag}: n_features={Xtr.shape[1]} best_C={gs.best_params_['C']} val_acc={acc:.4f} macro_f1={mf1:.4f} "
+          f"majority_class={maj:.4f}", flush=True)
     with open(f"{outdir}/{tag}_metrics.txt", "w") as f:
-        f.write(f"n_train_rows={len(train_df)}\nn_val_rows={len(val_df)}\nn_features={X_train.shape[1]}\n")
-        f.write(f"best_C={gs.best_params_['C']}\nval_accuracy={acc}\nval_macro_f1={macro_f1}\n")
-    return acc, macro_f1
+        f.write(f"n_train_rows={Xtr.shape[0]}\nn_val_rows={Xva.shape[0]}\nn_features={Xtr.shape[1]}\n"
+                f"best_C={gs.best_params_['C']}\nval_accuracy={acc}\nval_macro_f1={mf1}\nmajority_class_accuracy={maj}\n")
 
 
 def main():
@@ -89,22 +109,28 @@ def main():
     p.add_argument("--n_train", type=int, default=600)
     p.add_argument("--n_val", type=int, default=1000)
     p.add_argument("--bs", type=int, default=16)
+    p.add_argument("--labels", choices=["imgt", "dataset", "both"], default="imgt")
+    p.add_argument("--features", choices=["latents", "neurons", "both"], default="both")
+    p.add_argument("--ncpu", type=int, default=8)
     p.add_argument("--outdir", default=str(P.work("identification", "cdr_probe")))
     a = p.parse_args()
     os.makedirs(a.outdir, exist_ok=True)
     dev = torch.device("cuda")
     sae = S.load("piggen_topk_r32_layer3").to(dev)
-
-    train_df = build_latent_table(
-        P.dataset("CDR_training.csv"), a.n_train, a.bs, dev, sae
-    )
-    train_df.to_csv(f"{a.outdir}/cdr_probe_train_latents.csv.gz", index=False, compression="gzip")
-    val_df = build_latent_table(
-        P.dataset("CDR_validation.csv"), a.n_val, a.bs, dev, sae
-    )
-    val_df.to_csv(f"{a.outdir}/cdr_probe_val_latents.csv.gz", index=False, compression="gzip")
-    gc.collect()
-    train_eval(train_df, val_df, "cdr_probe", a.outdir)
+    tr = pd.read_csv(P.dataset("CDR_training.csv")).iloc[:a.n_train]
+    va = pd.read_csv(P.dataset("CDR_validation.csv")).iloc[:a.n_val]
+    for d in (tr, va):
+        assert (d["text"] == d["VHorVHH"] + d["VL"]).all() and (d["text"].str.len() == d["CDR_Mask"].str.len()).all()
+    lab = {}
+    if a.labels in ("imgt", "both"):
+        lab["imgt"] = (imgt_labels(tr.VHorVHH.tolist(), tr.VL.tolist(), a.ncpu),
+                       imgt_labels(va.VHorVHH.tolist(), va.VL.tolist(), a.ncpu))
+    if a.labels in ("dataset", "both"):
+        lab["dataset"] = (tr.CDR_Mask.tolist(), va.CDR_Mask.tolist())
+    for feats in (["latents", "neurons"] if a.features == "both" else [a.features]):
+        Xtr, Xva = residue_table(tr, a.bs, dev, sae, feats), residue_table(va, a.bs, dev, sae, feats)
+        for name, (ltr, lva) in lab.items():
+            train_eval(Xtr, flat(ltr), Xva, flat(lva), f"cdr_probe_{feats}_{name}", a.outdir)
     print("DONE")
 
 

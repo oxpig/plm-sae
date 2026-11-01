@@ -5,13 +5,15 @@ Input: per sequence and latent, the mean of the latent's non-zero activations ov
 human rows only (ANARCI species), allele removed. Steps:
   1. one-vs-rest logistic regression on the training sequences, C in {0.01, 0.1, 1} by 3-fold cross-validation on
      accuracy (StratifiedKFold with shuffle and no fixed seed, so the chosen C can vary between runs);
-  2. per class, the 500 latents with the highest weight, each MinMax-scaled on the validation sequences and scored as a
-     one-latent classifier over the thresholds 0.1, 0.2, 0.5, 0.8, 0.9 (best F1);
+  2. per class, every latent, each MinMax-scaled on the validation sequences and scored as a one-latent classifier over
+     the thresholds 0.1, 0.2, 0.5, 0.8, 0.9 (best F1);
   3. margin sweep (plm_sae.features.margin_sweep, Eqs 6-7).
 Outputs in OUT_DIR: full_model_evaluation_<trait>.csv (+ _summary.json), weights/class_<c>_weights.csv,
 feature_f1_scores_class_<c>.csv, margin_sweep/.
 
-Run: python -m paper.analyses.identification.section41_gate ACT_DIR OUT_DIR   (paper/scripts/identification/section41_gate.sh)"""
+Run: python -m paper.analyses.identification.section41_gate ACT_DIR OUT_DIR [--rescore]
+     (paper/scripts/identification/section41_gate.sh). --rescore repeats steps 2-3 from the probe weights in OUT_DIR
+     (needs only the validation shards)."""
 import argparse
 import csv
 import glob
@@ -87,16 +89,22 @@ def write_weights(clf, out_dir):
 
 def latent_f1(X, y, target, latents, path):
     """Best one-latent F1 for `target` over THRESHOLDS, latent values MinMax-scaled on X."""
-    vals = MinMaxScaler().fit_transform(np.column_stack([X[:, i].toarray().ravel() for i in latents]))
-    y_true = np.where(y.reset_index(drop=True) == target, target, f"not_{target}")
-    out = []
-    for j, lat in enumerate(latents):
-        best_f1, best_thr = 0.0, None
-        for thr in THRESHOLDS:
-            f1 = f1_score(y_true, np.where(vals[:, j] >= thr, target, f"not_{target}"), pos_label=target, average="binary")
-            if f1 > best_f1:
-                best_f1, best_thr = f1, thr
-        out.append({"feature": f"Neuron_{lat}", "neuron_id": int(lat), "best_threshold": best_thr, "best_f1": best_f1})
+    # F1 = 2TP / (2TP + FP + FN) for every latent and threshold at once (0 when undefined, as sklearn's f1_score); the
+    # best threshold is the first one with the highest F1 (None when every F1 is 0), as in a loop over THRESHOLDS
+    pos = (y.reset_index(drop=True) == target).to_numpy()
+    f1s = np.zeros((len(THRESHOLDS), len(latents)))
+    for c0 in range(0, len(latents), 2048):
+        vals = MinMaxScaler().fit_transform(X[:, latents[c0:c0 + 2048]].toarray())
+        for k, thr in enumerate(THRESHOLDS):
+            pred = vals >= thr
+            tp = (pred & pos[:, None]).sum(0)
+            den = 2 * tp + (pred & ~pos[:, None]).sum(0) + (~pred & pos[:, None]).sum(0)
+            f1s[k, c0:c0 + 2048] = np.where(den > 0, 2 * tp / np.maximum(den, 1), 0.0)
+    best = f1s.max(0)
+    first = f1s.argmax(0)
+    out = [{"feature": f"Neuron_{lat}", "neuron_id": int(lat),
+            "best_threshold": THRESHOLDS[first[j]] if best[j] > 0 else None, "best_f1": float(best[j])}
+           for j, lat in enumerate(latents)]
     pd.DataFrame(out).sort_values(by="best_f1", ascending=False).to_csv(path, index=False)
 
 
@@ -104,21 +112,24 @@ def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("act_dir")
     p.add_argument("out_dir")
+    p.add_argument("--rescore", action="store_true", help="steps 2-3 only, from the probe weights in OUT_DIR")
     a = p.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
-    y_train, i_train = human_labels(P.dataset("vj_train_anarci.csv"))
     y_val, i_val = human_labels(P.dataset("vj_val_anarci.csv"))
-    X_train = load_shards(a.act_dir, "train")[i_train, :]
     X_val = load_shards(a.act_dir, "val")[i_val, :]
-    print(f"train {X_train.shape}, val {X_val.shape}", flush=True)
-    clf = train_classifier(X_train, y_train)
-    save_evaluation(clf, X_val, y_val, os.path.join(a.out_dir, f"full_model_evaluation_{TRAIT}.csv"))
     wdir = os.path.join(a.out_dir, "weights")
-    write_weights(clf, wdir)
+    if not a.rescore:
+        y_train, i_train = human_labels(P.dataset("vj_train_anarci.csv"))
+        X_train = load_shards(a.act_dir, "train")[i_train, :]
+        print(f"train {X_train.shape}, val {X_val.shape}", flush=True)
+        clf = train_classifier(X_train, y_train)
+        save_evaluation(clf, X_val, y_val, os.path.join(a.out_dir, f"full_model_evaluation_{TRAIT}.csv"))
+        write_weights(clf, wdir)
     for c in y_val.unique():
         name = str(c).replace("/", "_").lower()
-        top = pd.read_csv(os.path.join(wdir, f"class_{name}_weights.csv"))["Index"].head(500).tolist()
-        latent_f1(X_val, y_val, c, top, os.path.join(a.out_dir, f"feature_f1_scores_class_{name}.csv"))
+        assert os.path.exists(os.path.join(wdir, f"class_{name}_weights.csv")), name
+        print(f"scoring every latent for {c}", flush=True)
+        latent_f1(X_val, y_val, c, list(range(N_LATENTS)), os.path.join(a.out_dir, f"feature_f1_scores_class_{name}.csv"))
     run_margin_sweep(f1_dir=a.out_dir, y=y_val, out_dir=os.path.join(a.out_dir, "margin_sweep"))
 
 

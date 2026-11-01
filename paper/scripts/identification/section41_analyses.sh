@@ -1,6 +1,6 @@
 #!/bin/bash
 # GPU analyses of the TopK SAE of Section 4.1 (p-IgGen block 3):
-#   cdr      CDR residue-identity probe (Section 4.1, accuracy 0.96)            -> identification/cdr_probe/
+#   cdr      CDR residue-identity probe, IMGT CDRs (Section 4.1: latents 0.999, neurons 0.998) -> identification/cdr_probe/
 #   residue  IMGT position of IGHJ4 latents 463, 4720, 6276 (Supplementary A.5)  -> identification/residue_location/
 #   stats    FVU, L0, never-fired share (Supplementary Table 4 caption)          -> identification/reconstruction/
 #   paper/scripts/identification/section41_analyses.sh {cdr|residue|stats}

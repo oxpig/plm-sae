@@ -5,9 +5,9 @@ Site and encoding are those of the Section 4.1 gate (paper/scripts/identificatio
 gpt_neox.layers[3] before the final layer norm, input "1" + VH + "2" padded to 350 tokens, no attention mask,
 topk_32(relu((x - b_dec) @ W_enc.T + b_enc)), raw activations. The model is causal, so the VH activations are the
 same with or without the light chain. Each series is divided by its largest absolute value over the VH; CDRs are
-shaded. Runs on CPU in seconds.
+shaded with IMGT boundaries (ANARCI, IMGT scheme: CDR1 27-38, CDR2 56-65, CDR3 105-117). Runs on CPU in seconds.
 
-The sequence (given below with its CDRs) is a paired heavy and light chain from the Observed Antibody Space (OAS; Olsen
+The sequence (given below) is a paired heavy and light chain from the Observed Antibody Space (OAS; Olsen
 et al. 2022, Kovaltsuk et al. 2018), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 
 Inputs: checkpoint piggen_topk_r32_layer3 and the p-IgGen model (plm_sae.models).
@@ -26,21 +26,31 @@ from plm_sae import sae as S
 
 VH = "EVQLVESGGGLVKPGGSLRLSCAASGFTFSSYTMTWVRQAPGKGLEWVSSISSVSSYRHYADSVNGRFTISRDNARNSLFLQLNSLRAEDTAVYFCAFELEHDDAFDIWGQGTMVTVSS"
 VL = "DIQMTQSPSSLSASVGDRVTITCRASQSISTYLNWYQQKPGRAPKLLIYAASHLHSGVPSRLSGSGSGTDFTLTINSLQPEDFATYYCQQSYRTPYTFGQGTKLEIK"
-CDRS = dict(cdr1h="GFTFSSY", cdr2h="SSVSSY", cdr3h="ELEHDDAFDI", cdr1l="RASQSISTYLN", cdr2l="AASHLHS", cdr3l="QQSYRTPYT")
+IMGT_CDRS = ((27, 38), (56, 65), (105, 117))
 
 
-def cdr_mask(vh, vl, cdr1h, cdr2h, cdr3h, cdr1l, cdr2l, cdr3l):
-    """One character per residue: A/B/C heavy CDRs, Z/Y/W light CDRs, '!' on the last VH residue."""
-    sym = {'cdr1h': 'A', 'cdr2h': 'B', 'cdr3h': 'C', 'cdr1l': 'Z', 'cdr2l': 'Y', 'cdr3l': 'W'}
+def imgt_numbers(seq):
+    """IMGT position (ANARCI, IMGT scheme) of each residue of seq; None outside the numbered domain."""
+    from anarci import anarci
+    num, _, _ = anarci([("q", seq)], scheme="imgt", output=False)
+    residues, start, _ = num[0][0]
+    out, k = [None] * len(seq), start
+    for (pos, _ins), aa in residues:
+        if aa != "-":
+            out[k] = pos
+            k += 1
+    return out
+
+
+def cdr_mask(vh, vl):
+    """One character per residue of vh + vl: A/B/C heavy CDRs, Z/Y/W light CDRs (IMGT, ANARCI), '!' on the last VH
+    residue."""
     mask = ['-'] * len(vh + vl)
-
-    def rep(seq, cdr, off, s):
-        st = seq.find(cdr)
-        if st != -1:
-            for i in range(st + off, st + off + len(cdr)):
-                mask[i] = s
-    rep(vh, cdr1h, 0, sym['cdr1h']); rep(vh, cdr2h, 0, sym['cdr2h']); rep(vh, cdr3h, 0, sym['cdr3h'])
-    rep(vl, cdr1l, len(vh), sym['cdr1l']); rep(vl, cdr2l, len(vh), sym['cdr2l']); rep(vl, cdr3l, len(vh), sym['cdr3l'])
+    for seq, off, syms in ((vh, 0, "ABC"), (vl, len(vh), "ZYW")):
+        for k, pos in enumerate(imgt_numbers(seq)):
+            for s, (lo, hi) in zip(syms, IMGT_CDRS):
+                if pos is not None and lo <= pos <= hi:
+                    mask[off + k] = s
     if vh:
         mask[len(vh) - 1] = '!'
     return ''.join(mask)
@@ -81,11 +91,11 @@ def create_activation_plot(df, mask, series, legend_title, save_path, ylim0, fig
     import matplotlib.pyplot as plt
     mask = mask[:len(df)]
     boundary_idx = mask.find('!')
-    plot_df = df[df['Position'] <= boundary_idx].copy()          # VH only
+    plot_df = df[df['Position'] - 2 <= boundary_idx].copy()      # VH only (residue k is drawn at Position k + 2)
     fig, ax = plt.subplots(figsize=figsize)
     cdr_colors = {'A': '#ff9999', 'B': '#99ccff', 'C': '#99ff99', 'Z': '#ffcc99', 'Y': '#ff99ff', 'W': '#ffb366'}
     for _, r in plot_df.iterrows():
-        pos = r['Position'] - 1
+        pos = r['Position'] - 2
         if pos < len(mask) and mask[pos] in cdr_colors:
             ax.axvspan(r['Position'] - 0.5, r['Position'] + 0.5, alpha=0.2, color=cdr_colors[mask[pos]])
     for col, label, color, marker, size in series:
@@ -107,7 +117,7 @@ def create_activation_plot(df, mask, series, legend_title, save_path, ylim0, fig
     leg1 = ax.legend(title=legend_title, loc='upper left', bbox_to_anchor=(1.0, 1), fontsize=18, title_fontsize=20)
     extra = [leg1]   # legends added with add_artist are outside the tight bbox unless listed
     names = {'A': 'CDRH1', 'B': 'CDRH2', 'C': 'CDRH3'}
-    vis = {mask[r - 1] for r in plot_df['Position'] if r - 1 < len(mask)}
+    vis = {mask[r - 2] for r in plot_df['Position'] if r - 2 < len(mask)}
     handles = [plt.Line2D([0], [0], marker='s', color='w', markerfacecolor=cdr_colors[k], markersize=15, label=v)
                for k, v in names.items() if k in vis]
     ax.legend(handles=handles, title="CDR Regions", loc='center left', bbox_to_anchor=(1.01, 0.4),
@@ -167,7 +177,7 @@ def main(argv=None):
     if len(argv) != 1:
         sys.exit(__doc__)
     out = argv[0]; os.makedirs(out, exist_ok=True)
-    mask = cdr_mask(VH, VL, **CDRS)
+    mask = cdr_mask(VH, VL)
     x, We, be, bd = activations()
     df = dense_df(x, We, be, bd, [4280, 3054, 532, 3098], neuron=45)
 
@@ -179,7 +189,7 @@ def main(argv=None):
     im.save(f1); print("Figure 1:", f1, im.size)
 
     # Supplementary Figure 5: 6610 x 1772 render with the J-region box, downscaled to 1600 x 429 (96 dpi)
-    j_lo = 1 + VH.rfind('IWGQG') + 1        # Position of the I of the J motif
+    j_lo = 2 + next(k for k, pos in enumerate(imgt_numbers(VH)) if pos is not None and pos >= 115)   # IMGT 115
     im = render_to(df, mask, 6610, 1772, os.path.join(out, "s5_tmp.png"),
                    series=[("Neuron_3054", "Latent 3054", '#1f77b4', 'o', 100), ("Neuron_532", "Latent 532", '#d62728', 's', 100),
                            ("Neuron_3098", "Latent 3098", '#2ca02c', '^', 100)],
