@@ -100,7 +100,7 @@ def metadata(E):
     if (F / "manifest_joint.csv").exists():
         for r in pd.read_csv(F / "manifest_joint.csv").itertuples():
             joint[(r.arch, r.phi, r.gene, int(r.latent))] = r.members
-    named = {"lct": "light chain", "dev": "developability", "section41": "section41"}
+    named = {"lct": "light chain", "dev": "developability", "section41": "section41", "lowidx": "low-index"}
     out = []
     for e in E.itertuples():
         k = (e.model, e.arch, e.target, e.latent)
