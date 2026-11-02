@@ -12,5 +12,6 @@ NAME=piggen_topk_r32_layer${1:-3}
 OUT="$PLM_SAE_WORK_DIR/identification/gates/$NAME"
 if [ -f "$OUT/margin_sweep/summary.csv" ]; then log "done already: $OUT"; exit 0; fi
 log "Section 4.1 gate $NAME -> $OUT"
-"$PY" -m paper.analyses.identification.section41_gate "$PLM_SAE_ACTIVATIONS/$NAME/nonzero_mean" "$OUT"
+"$PY" -m paper.analyses.identification.section41_gate "$PLM_SAE_ACTIVATIONS/$NAME/nonzero_mean" "$OUT" \
+  --select_act_dir "$PLM_SAE_ACTIVATIONS/$NAME/allmean"
 cat "$OUT/margin_sweep/counts_by_margin.csv"

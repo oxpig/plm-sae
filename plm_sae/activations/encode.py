@@ -7,12 +7,15 @@ Each sequence is run through the SAE's base model; the SAE encodes the activatio
 --pool tokens         one file per sequence, <orig_row>.npy, [tokens, dictionary size] (IMGT localisation, p-IgGen gates)
 --pool mean           one file per sequence, <orig_row>.npy, mean over all padded positions (IgLM, ProGen2-OAS gates)
 --pool nonzero_mean   csr shards <split>_shardNNN.npz + _rows.npy (row positions in the CSV): per latent, the mean of
-                      its non-zero (> 1e-6) activations over the residue positions only (sparsify SAEs; Section 4.1)
+                      its non-zero (> 1e-6) activations over the residue positions only (sparsify SAEs; Section 4.1
+                      linear probe)
+--pool allmean       the same shards with, per latent, the mean of its activations over all padded positions
+                      (sparsify SAEs; Section 4.1 latent selection)
 
 Batch TopK and Ordered SAEs select k * N latents over everything passed to one encode() call, so they are encoded one
 sequence at a time (--batch_size 1, enforced).
 
-Run: python -m plm_sae.activations.encode SAE CSV OUT_DIR [--pool tokens|mean|nonzero_mean] [--seq_col VHorVHH]
+Run: python -m plm_sae.activations.encode SAE CSV OUT_DIR [--pool tokens|mean|nonzero_mean|allmean] [--seq_col VHorVHH]
      [--batch_size 1] [--sample N --seed S] [--shard I --num_shards N] [--split train|val]
 (scripts/extraction/encode.sh sets the paper's settings.)"""
 import argparse
@@ -76,8 +79,9 @@ def encode_files(sae, site, model, tok, rows, seqs, out_dir, pool, batch_size, d
             print(f"[{s + B}/{len(seqs)}]", flush=True)
 
 
-def encode_nonzero_mean(sae, site, tok, seqs, out_dir, split, shard, num_shards, batch_size, device):
-    """Section 4.1 pooling: residue positions 1..len(sequence) only; mean of the non-zero top-k activations."""
+def encode_nonzero_mean(sae, site, tok, seqs, out_dir, split, shard, num_shards, batch_size, device, allmean=False):
+    """Section 4.1 pooling: residue positions 1..len(sequence) only; mean of the non-zero top-k activations
+    (allmean: every padded position, divided by the number of positions)."""
     rows = np.arange(shard, len(seqs), num_shards)
     D, mats = sae.W_enc.shape[0], []
     for s in range(0, len(rows), batch_size):
@@ -89,11 +93,13 @@ def encode_nonzero_mean(sae, site, tok, seqs, out_dir, split, shard, num_shards,
         with torch.no_grad():
             v, i = sae.topk(x)
             pos = torch.arange(T, device=device)[None, :]
-            v = v * ((pos >= 1) & (pos <= L[:, None]))[..., None]
+            if not allmean:
+                v = v * ((pos >= 1) & (pos <= L[:, None]))[..., None]
             nz = (v > 1e-6).float()
             total = torch.zeros(B, D, device=device).scatter_add_(1, i.reshape(B, -1), (v * nz).reshape(B, -1))
             count = torch.zeros(B, D, device=device).scatter_add_(1, i.reshape(B, -1), nz.reshape(B, -1))
-            mats.append(sp.csr_matrix((total / count.clamp(min=1)).cpu().numpy().astype(np.float32)))
+            mean = total / T if allmean else total / count.clamp(min=1)
+            mats.append(sp.csr_matrix(mean.cpu().numpy().astype(np.float32)))
     sp.save_npz(os.path.join(out_dir, f"{split}_shard{shard:03d}.npz"), sp.vstack(mats).tocsr())
     np.save(os.path.join(out_dir, f"{split}_shard{shard:03d}_rows.npy"), rows)
 
@@ -101,7 +107,7 @@ def encode_nonzero_mean(sae, site, tok, seqs, out_dir, split, shard, num_shards,
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("sae"); p.add_argument("csv"); p.add_argument("out_dir")
-    p.add_argument("--pool", choices=["tokens", "mean", "nonzero_mean"], default="tokens")
+    p.add_argument("--pool", choices=["tokens", "mean", "nonzero_mean", "allmean"], default="tokens")
     p.add_argument("--seq_col", default="VHorVHH")
     p.add_argument("--batch_size", type=int, default=1)
     p.add_argument("--sample", type=int, default=None)
@@ -122,8 +128,9 @@ def main():
     os.makedirs(a.out_dir, exist_ok=True)
     rows, seqs = read_rows(a.csv, a.seq_col, a.sample, a.seed)
     print(f"encode {a.sae} ({model}) {len(seqs)} sequences, pool {a.pool} -> {a.out_dir}", flush=True)
-    if a.pool == "nonzero_mean":
-        encode_nonzero_mean(sae, site, tok, seqs, a.out_dir, a.split, a.shard, a.num_shards, 16, device)
+    if a.pool in ("nonzero_mean", "allmean"):
+        encode_nonzero_mean(sae, site, tok, seqs, a.out_dir, a.split, a.shard, a.num_shards, 16, device,
+                            allmean=a.pool == "allmean")
     else:
         done = {f[:-4] for f in os.listdir(a.out_dir) if f.endswith(".npy")}
         todo = [(r, s) for r, s in zip(rows, seqs) if f"{r:06d}" not in done]

@@ -5,7 +5,8 @@ Input: per sequence and latent, the mean of the latent's non-zero activations ov
 human rows only (ANARCI species), allele removed. Steps:
   1. one-vs-rest logistic regression on the training sequences, C in {0.01, 0.1, 1} by 3-fold cross-validation on
      accuracy (StratifiedKFold with shuffle and no fixed seed, so the chosen C can vary between runs);
-  2. per class, every latent, each MinMax-scaled on the validation sequences and scored as a one-latent classifier over
+  2. per class, every latent, pooled as the mean over all padded positions (--select_act_dir, pool allmean), each
+     MinMax-scaled on the validation sequences and scored as a one-latent classifier over
      the thresholds 0.1, 0.2, 0.5, 0.8, 0.9 (best F1);
   3. margin sweep (plm_sae.features.margin_sweep, Eqs 6-7).
 Outputs in OUT_DIR: full_model_evaluation_<trait>.csv (+ _summary.json), weights/class_<c>_weights.csv,
@@ -113,10 +114,12 @@ def main():
     p.add_argument("act_dir")
     p.add_argument("out_dir")
     p.add_argument("--rescore", action="store_true", help="steps 2-3 only, from the probe weights in OUT_DIR")
+    p.add_argument("--select_act_dir", required=True, help="allmean shards: the pooling of latent selection")
     a = p.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
     y_val, i_val = human_labels(P.dataset("vj_val_anarci.csv"))
     X_val = load_shards(a.act_dir, "val")[i_val, :]
+    X_sel = load_shards(a.select_act_dir, "val")[i_val, :]
     wdir = os.path.join(a.out_dir, "weights")
     if not a.rescore:
         y_train, i_train = human_labels(P.dataset("vj_train_anarci.csv"))
@@ -129,7 +132,7 @@ def main():
         name = str(c).replace("/", "_").lower()
         assert os.path.exists(os.path.join(wdir, f"class_{name}_weights.csv")), name
         print(f"scoring every latent for {c}", flush=True)
-        latent_f1(X_val, y_val, c, list(range(N_LATENTS)), os.path.join(a.out_dir, f"feature_f1_scores_class_{name}.csv"))
+        latent_f1(X_sel, y_val, c, list(range(N_LATENTS)), os.path.join(a.out_dir, f"feature_f1_scores_class_{name}.csv"))
     run_margin_sweep(f1_dir=a.out_dir, y=y_val, out_dir=os.path.join(a.out_dir, "margin_sweep"))
 
 

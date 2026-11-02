@@ -1,10 +1,9 @@
 """FVU, L0 and dead fraction of the hyperparameter-matched SAEs on the 30,754 validation heavy chains
-(vj_val_anarci.csv, VHorVHH): Supplementary Tables 4 and 5, and the matched expansion-32 TopK SAE of the
-Supplementary Table 4 caption. Input: final-layer-norm output / norm factor, tokenised as for feature identification;
+(vj_val_anarci.csv, VHorVHH): Supplementary Tables 4 and 5. Input: final-layer-norm output / norm factor, tokenised as for feature identification;
 one sequence per encode() call. Statistics over real tokens (tokens=real, the reported rows) and over all padded
 positions (tokens=all). FVU = sum ||x - x_hat||^2 / sum ||x - mean(x)||^2.
 
-Run: python -m plm_sae.training.reconstruction {piggen,IgLM,progen2_oas,piggen_exp32}   (GPU)
+Run: python -m plm_sae.training.reconstruction {piggen,IgLM,progen2_oas}   (GPU)
 Writes <work_dir>/identification/reconstruction/recon_val_<key>.csv and fire_counts_<key>.npz (per-latent firing
 counts, arrays '<SAE>|real' and '<SAE>|all', read by the redundancy and developability stages)."""
 import os
@@ -21,7 +20,6 @@ SAES = {
     "IgLM": [("TopK", "iglm_topk_r8"), ("Batch TopK", "iglm_batchtopk_r8"), ("Ordered", "iglm_ordered_r8")],
     "progen2_oas": [("TopK", "progen2oas_topk_r8"), ("Batch TopK", "progen2oas_batchtopk_r8"),
                     ("Ordered", "progen2oas_ordered_r8")],
-    "piggen_exp32": [("TopK exp32", "piggen_topk_r32_matched")],
 }
 
 
@@ -41,7 +39,7 @@ def _add(s, x, xh, f):
 
 def main():
     key = sys.argv[1]
-    model = "piggen" if key == "piggen_exp32" else key
+    model = key
     out = P.work("identification", "reconstruction")
     dev = torch.device("cuda")
     plm, tok = models.load(model, dev)

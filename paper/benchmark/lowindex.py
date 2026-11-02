@@ -88,7 +88,8 @@ def summary():
                     T10L[T10L.set == "lowidx"].assign(model="progen2_oas")])
     li = li.drop(columns=["rank"], errors="ignore").merge(S[R.KEY + ["rank"]], on=R.KEY).assign(set="lowidx")
     ex = R.existing_sets(FL, T10L)
-    T = pd.concat([ex[ex.arch == "Ordered"], li[R.KEY + ["rank", "set", "paper_corr", "paper_mag"]]], ignore_index=True)
+    ex = ex[(ex.arch == "Ordered") & ex.set.isin(["f1", "baseline", "output"])]   # ProGen2-OAS latents.csv also holds the lowidx rows
+    T = pd.concat([ex, li[R.KEY + ["rank", "set", "paper_corr", "paper_mag"]]], ignore_index=True)
     for col, name in (("paper_corr", "correlation criterion"), ("paper_mag", "both criteria")):
         per = T.assign(p=R.ok(T[col])).groupby(["model", "set"]).p.sum().unstack().reindex(R.M)
         print(f"{name}, of 18 per model (Ordered SAEs):\n{per[['lowidx', 'f1', 'baseline', 'output']].to_string()}")

@@ -10,7 +10,7 @@ results (<results_dir>/<stage>/...), so the benchmark runs either after the earl
                                                  excluded from the baseline draw)
   identification/gates/piggen_topk_r32_layer3/feature_f1_scores_class_ighj<k>.csv
                                                  F1 ranking of the TopK SAE of Section 4.1
-  redundancy/coactivation_groups.txt             the 22 co-activation groups, lines "phi sae gene m1+m2+..." (first
+  redundancy/coactivation_groups.txt             the 20 co-activation groups, lines "phi sae gene m1+m2+..." (first
                                                  member = the highest-F1 latent)
   libraries/piggen_alpha0_reference/             3,000 unsteered p-IgGen sequences on which the start positions of the
                                                  Section 4.1 latents were measured
@@ -54,7 +54,7 @@ def section41_latents():
 
 
 def coactivation_groups():
-    """(phi, sae, gene, [latents]) of the 22 co-activation groups, in file order."""
+    """(phi, sae, gene, [latents]) of the 20 co-activation groups, in file order."""
     for line in open(inp("redundancy", "coactivation_groups.txt")):
         if line.strip():
             phi, sae, gene, lats = line.split()

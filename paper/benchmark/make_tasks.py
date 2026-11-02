@@ -11,7 +11,7 @@ range; paper.benchmark.extend and make_refine add strengths later). Seeds 0-2, 1
 Modes (each writes one task per SAE and gene unless noted):
   gated      f1, baseline and output sets of p-IgGen and IgLM, gated
   ungated    the same sets ungated (p-IgGen: f1 and baseline; IgLM: all three; IgLM is reported ungated)
-  joint      the 22 co-activation groups (p-IgGen TopK and Batch TopK), gated; one task per SAE and phi
+  joint      the 20 co-activation groups (p-IgGen TopK and Batch TopK), gated; one task per SAE and phi
   other      p-IgGen light-chain type (one task per SAE), developability latents 980 and 1088, and the three
              highest-F1 latents per gene of the TopK SAE of Section 4.1 (output of block 3, strengths 0-240)
 A task = configs file (cfg/<task>.txt) + units file (units/<task>.txt) + task file (tasks/todo/<task>), in

@@ -50,15 +50,15 @@ The record holds four archives, each extracting to one folder, plus the code sna
 
 Activation caches (about 660 GB) are not in the record. The extraction step regenerates them.
 
-Four inputs come only with the record (no step produces them): `redundancy/coactivation_groups.txt` (the 22
+Four inputs come only with the record (no step produces them): `redundancy/coactivation_groups.txt` (the 20
 co-activation groups), `ablation/single_latents.txt` (the ablated latents), `identification/lowidx/selection.csv`
 (Ordered latents excluded from the baseline draw) and `outsel_properties/baseline_exclusions.csv` (latents excluded
 from the property baselines).
 
 ## Training
 1. `bash scripts/extraction/dump_activations.sh <model>` for `piggen`, `IgLM`, `progen2_oas` (GPU).
-2. `bash scripts/training/train_sae.sh <sae>` for the nine SAEs `<model>_<topk|batchtopk|ordered>_r8` and
-   `piggen_topk_r32_matched` (GPU, `scripts/training/sae_runs.sh` lists them). Learning rates were picked with
+2. `bash scripts/training/train_sae.sh <sae>` for the nine SAEs `<model>_<topk|batchtopk|ordered>_r8`
+   (GPU, `scripts/training/sae_runs.sh` lists them). Learning rates were picked with
    `scripts/training/lr_screen.sh`.
 3. `bash scripts/training/train_sparsify.sh`: the expansion-32 TopK SAEs of Section 4.1 (p-IgGen layers 0-3).
 

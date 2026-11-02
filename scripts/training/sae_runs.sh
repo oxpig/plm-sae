@@ -9,7 +9,7 @@
 # Every run: k 32, warmup 100 steps, seed 0, auxiliary-loss alpha 1/32, one sequence per step, activations divided by
 # the norm factor of the training data (computed at the start of the run; plm_sae.models.NORM_FACTOR).
 SAE_RUNS="piggen_topk_r8 piggen_batchtopk_r8 piggen_ordered_r8 iglm_topk_r8 iglm_batchtopk_r8 iglm_ordered_r8 \
-progen2oas_topk_r8 progen2oas_batchtopk_r8 progen2oas_ordered_r8 piggen_topk_r32_matched"
+progen2oas_topk_r8 progen2oas_batchtopk_r8 progen2oas_ordered_r8"
 
 sae_run() {
   case "$1" in
@@ -22,7 +22,6 @@ sae_run() {
     progen2oas_topk_r8)      MODEL=progen2_oas; ARCH=top_k;       EXP=8;  LR=1e-4 ;;
     progen2oas_batchtopk_r8) MODEL=progen2_oas; ARCH=batch_top_k; EXP=8;  LR=1e-4 ;;
     progen2oas_ordered_r8)   MODEL=progen2_oas; ARCH=ordered;     EXP=8;  LR=1e-5 ;;
-    piggen_topk_r32_matched) MODEL=piggen;      ARCH=top_k;       EXP=32; LR=1e-4 ;;
     *) echo "unknown SAE '$1'; one of: $SAE_RUNS" >&2; return 1 ;;
   esac
   NAME=$1; sae_args
