@@ -80,7 +80,7 @@ def tasks():
 
 
 def summary():
-    S = pd.read_csv(OUT / "selection.csv").rename(columns={"gene": "target"})
+    S = pd.read_csv(inp("benchmark", "lowindex", "selection.csv")).rename(columns={"gene": "target"})
     FL = pd.read_csv(inp("benchmark", "final_latents.csv"))
     T10L = pd.read_csv(inp("progen2_t10", "score", "latents.csv"))
     li = pd.concat([FL[(FL.model == "piggen") & (FL.set == "low-index") & (FL.rule == "gated")],
