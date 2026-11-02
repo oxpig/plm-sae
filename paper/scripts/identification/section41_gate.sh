@@ -2,7 +2,8 @@
 # Feature identification gate of an expansion-32 TopK SAE of Section 4.1 (layer 3: Table 1, Supplementary Table 13;
 # layers 0-3: Supplementary Table 12). paper.analyses.identification.section41_gate.
 #   paper/scripts/identification/section41_gate.sh [LAYER]        (default 3)
-# Reads   <work_dir>/activations/piggen_topk_r32_layer<L>/nonzero_mean/ (section41_encode.sh, all 32 shards)
+# Reads   <work_dir>/activations/piggen_topk_r32_layer<L>/nonzero_mean/ (section41_encode.sh, all 32 shards; the probe)
+#         and .../allmean/ (section41_encode.sh TASK LAYER allmean, the 8 validation shards; latent selection)
 # Writes  <work_dir>/identification/gates/piggen_topk_r32_layer<L>/ (full_model_evaluation_*, weights/,
 #         feature_f1_scores_class_ighj<n>.csv, margin_sweep/)
 # CPU only: 16 cores, 128 GB (layers 0-2 needed up to 340 GB), up to 6 h.

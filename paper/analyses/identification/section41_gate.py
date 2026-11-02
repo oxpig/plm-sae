@@ -1,7 +1,8 @@
 """Feature identification of the expansion-32 TopK SAEs of Section 4.1 (Table 1, Supplementary Tables 12 and 13).
 
-Input: per sequence and latent, the mean of the latent's non-zero activations over the residue positions
-(paper/scripts/identification/section41_encode.sh, csr shards). Labels: ANARCI heavy J gene (j_gene_anarci_heavy),
+Input (paper/scripts/identification/section41_encode.sh, csr shards): per sequence and latent, the mean of the latent's
+non-zero activations over the residue positions (ACT_DIR, the linear probe of step 1) and the mean of its activations over
+all padded positions (--select_act_dir, the latent selection of step 2). Labels: ANARCI heavy J gene (j_gene_anarci_heavy),
 human rows only (ANARCI species), allele removed. Steps:
   1. one-vs-rest logistic regression on the training sequences, C in {0.01, 0.1, 1} by 3-fold cross-validation on
      accuracy (StratifiedKFold with shuffle and no fixed seed, so the chosen C can vary between runs);
