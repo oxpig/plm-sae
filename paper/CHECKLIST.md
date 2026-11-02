@@ -61,6 +61,7 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S20 | `tab:dev_latents` | Developability steering, every latent | `python -m paper.tables.outsel_properties` | `outsel_properties/results_dev.csv` | Reproduced (24/24 rows) |
 | S21 | `tab:graded` | Graded CDRH3 steering, passes per set | same | `outsel_properties/results_graded.csv` | Reproduced (9/9 rows) |
 | S22 | `tab:graded_latents` | Graded latents | same | same | Reproduced (27/27 rows) |
+| S23 | `tab:lowindex` | Low-index latents of the Ordered SAEs against the Ordered rows of Table 2 | `python -m paper.benchmark.lowindex summary` (steering: `python -m paper.benchmark.lowindex select`, `tasks`, then the benchmark workers) | `benchmark/lowindex/selection.csv`, `benchmark/final_latents.csv` (set low-index), `progen2_t10/score/latents.csv` (set lowidx) | Reproduced (3/3 rows) |
 
 `paper/scripts/figures/make_tables.sh` runs every "Reproduced" table command. With `MANUSCRIPT=manuscript.tex` it also
 checks Supplementary Table 11 and the binder numbers against the manuscript.
