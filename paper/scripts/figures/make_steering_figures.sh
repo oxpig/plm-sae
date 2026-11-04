@@ -16,7 +16,7 @@ O="${1:-$PLM_SAE_WORK_DIR/figures}"; mkdir -p "$O"
 "$PY" -m paper.figures.fig_steering "$O/fig2_f1.png" 3.3 1.08 2 \
   '(a) Top $F_1$ 733|benchmark|piggen|BatchTopK/f1/gated|733|IGHJ6' \
   '(b) Output-selected 5141|benchmark|piggen|TopK/output/gated|5141|IGHJ6'
-"$PY" -m paper.figures.fig_steering "$O/fig_xmodel.png" 3.3 1.08 2 \
+"$PY" -m paper.figures.fig_steering "$O/fig_xmodel.png" 3.3 1.3 2 ymax=60 \
   '(a) IgLM, latent 3431|benchmark|IgLM|Ordered/f1/ungated|3431|IGHJ5' \
   '(b) ProGen2-OAS, latent 6919|progen2_t10|progen2_oas|TopK/f1|6919|IGHJ3'
 "$PY" -m paper.figures.fig_steering "$O/fig_case_steer.png" 6.9 1.75 3 \

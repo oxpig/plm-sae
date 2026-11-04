@@ -5,7 +5,9 @@ mean of three seeds of 1,000 sequences (line) and range (band), from alpha = 0 t
 latent table of the same run). Prints, per panel, the target-gene proportion at alpha = 0 and alpha* and the per-seed
 alpha* mean of Supplementary Table 7.
 
-    python -m paper.figures.fig_steering OUT.png WIDTH_IN HEIGHT_IN NCOL "TITLE|RUN|MODEL|RUNDIR|LATENT|GENE" ...
+    python -m paper.figures.fig_steering OUT.png WIDTH_IN HEIGHT_IN NCOL [ymax=Y] "TITLE|RUN|MODEL|RUNDIR|LATENT|GENE" ...
+
+ymax sets the top of the y axis in percent (default 100).
 
 RUN is benchmark (benchmark/final_libraries.csv.gz, final_latents.csv) or progen2_t10 (progen2_t10/score/libraries.csv.gz,
 score/latents.csv), from <work_dir> where present, else <results_dir>; RUNDIR is the library directory below
@@ -72,7 +74,9 @@ def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     plt.rcParams.update(STYLE)
     out, W, H, ncol = argv[0], float(argv[1]), float(argv[2]), int(argv[3])
-    specs = [x.split("|") for x in argv[4:]]; nrow = -(-len(specs) // ncol)
+    rest = argv[4:]; ymax = 100
+    if rest and rest[0].startswith("ymax="): ymax = int(rest.pop(0)[5:])
+    specs = [x.split("|") for x in rest]; nrow = -(-len(specs) // ncol)
     fig, axes = plt.subplots(nrow, ncol, figsize=(W, H), squeeze=False, sharey=True)
     for k, (ax, (title, run, model, rundir, lat, gene)) in enumerate(zip(axes.flat, specs)):
         s, astar = load(run, model, rundir, int(lat), gene)
@@ -82,7 +86,7 @@ def main(argv=None):
             ax.plot(s.index, s[(g, "mean")], color=c, lw=1.5 if tgt else 0.9, marker="o", ms=2.6 if tgt else 1.9, label=g, zorder=3 if tgt else 2)
         ax.set_title(title, fontsize=6 if len(title) > 26 else 7); ax.set_xlabel(r"Steering factor ($\alpha$)")
         if k % ncol == 0: ax.set_ylabel("Proportion (%)")
-        ax.set_ylim(-2, 100); ax.set_yticks([0, 25, 50, 75, 100]); ax.set_xlim(-0.04 * astar, 1.04 * astar)
+        ax.set_ylim(-0.02 * ymax, ymax); ax.set_yticks(np.linspace(0, ymax, 5 if ymax % 25 == 0 else 4)); ax.set_xlim(-0.04 * astar, 1.04 * astar)
         ax.xaxis.set_major_locator(MaxNLocator(nbins=5, integer=True))
         t = s[(gene, "mean")]
         print(f"{title}: {gene} {t.iloc[0]:.1f} -> {t.iloc[-1]:.1f} at alpha* {astar:g}")
