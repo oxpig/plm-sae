@@ -75,8 +75,8 @@ sits exactly at the eligibility boundary (p-IgGen TopK 3080, IGHJ2: enrichment 1
 
 * **Gated (p-IgGen, ProGen2-OAS):** the highest-F1 latent of a gene starts five positions before the 5th percentile of its
   onset over validation sequences of that gene, where the onset is the first position at which its activation reaches
-  10% of that sequence's maximum (`onset_p05 - 5`, floored at 0; rule `gated`, `paper.benchmark.positions`). The three
-  highest-F1 ProGen2-OAS Ordered latents that never fire on those sequences (759, 6902, 4036) start at position 0.
+  10% of that sequence's maximum (`onset_p05 - 5`, floored at 0; rule `gated`, `paper.benchmark.positions`). The four
+  highest-F1 ProGen2-OAS Ordered latents that never fire on those sequences (759, 4036, 5362, 6828) start at position 0.
   For the expansion-32 TopK SAE the onset is taken over 3,000 unsteered p-IgGen sequences.
 * **Baseline and output-selected latents** start at the start position of the gene's highest-F1 latent, so every set is
   compared over the same positions.
