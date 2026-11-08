@@ -1,5 +1,5 @@
 #!/bin/bash
-# Developability gate of one hyperparameter-matched SAE (Supplementary Section A.10, Supplementary Table 19): Pearson
+# Developability gate of one hyperparameter-matched SAE (Supplementary Section A.9, Supplementary Table 18): Pearson
 # correlation of every latent's pooled validation activation with the four FlashTAP metrics (after flashtap_val.sh and
 # scripts/extraction/encode.sh SAE val). CPU: 8 cores, 48 GB, up to 10 h. Skips if the four tables exist.
 # Usage: paper/scripts/properties/developability_gate.sh SAE      (piggen_topk_r8, ..., progen2oas_ordered_r8)

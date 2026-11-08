@@ -1,5 +1,4 @@
-"""IMGT localisation of the highest-F1 p-IgGen latent of each J gene and matched SAE (Supplementary Table 14; the
-activation profiles of Supplementary Figure 9). Over validation heavy chains of the latent's gene, the activation at
+"""IMGT localisation of the highest-F1 p-IgGen latent of each J gene and matched SAE (Supplementary Table 23). Over validation heavy chains of the latent's gene, the activation at
 residue k (token 1 + k of '1' + VH + '2') is added to that residue's IMGT position (paper.analyses.identification.imgt).
 Per latent: share of the activation at IMGT 115-128 (J region) and number of positions holding 90% of it.
 Reads the per-token validation latents <work_dir>/activations/<sae>/val/ (scripts/extraction/encode.sh) and the F1

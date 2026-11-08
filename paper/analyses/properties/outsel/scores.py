@@ -1,5 +1,5 @@
-"""Latent statistics for steering CDRH3 properties and developability metrics in p-IgGen (Supplementary Sections A.10
-and A.12). GPU, one job. Per latent of the three hyperparameter-matched p-IgGen SAEs (final-layer-norm output / norm
+"""Latent statistics for steering CDRH3 properties and developability metrics in p-IgGen (Supplementary Sections A.5
+and A.9). GPU, one job. Per latent of the three hyperparameter-matched p-IgGen SAEs (final-layer-norm output / norm
 factor, one sequence per encode() call):
   latent_positions.csv  on 3,000 validation heavy chains (random_state 0, the sample of ident_simple), the 5th
                         percentile of the per-sequence onset and peak positions over the sequences in which the latent

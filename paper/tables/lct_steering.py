@@ -1,4 +1,4 @@
-"""Light-chain-type steering (Supplementary Table 15, tab:lct_steering): LaTeX table body and the counts of the
+"""Light-chain-type steering (Supplementary Table 14, tab:lct_steering): LaTeX table body and the counts of the
 paragraph. Rows of the benchmark's final_latents.csv with set "light chain" (p-IgGen, three highest-F1 latents per class and SAE):
 target-type proportion of numbered light chains at alpha = 0 and at alpha*, correlation and magnitude criteria. Reads
 benchmark/final_latents.csv; prints the body and counts and writes <work_dir>/tables/lct_steering.tex.

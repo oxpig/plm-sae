@@ -1,5 +1,5 @@
 #!/bin/bash
-# FlashTAP scores of the benchmark libraries of the PSH-associated latents (Supplementary Section A.10): every alpha,
+# FlashTAP scores of the benchmark libraries of the PSH-associated latents (Supplementary Section A.9): every alpha,
 # seeds 0-2. ANARCI splits each p-IgGen output into VH|VL (main environment), FlashTAP scores the pairs
 # ($PLM_SAE_PYTHON_FLASHTAP, GPU); then python -m paper.analyses.properties.dev_steering.analysis trend.
 # Usage: paper/scripts/properties/dev_score.sh IDX      (0: TopK latent 980, 1: Batch TopK latent 1088)

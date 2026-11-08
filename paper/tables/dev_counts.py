@@ -1,4 +1,4 @@
-"""Supplementary Table 19 (tab:dev_counts): latents associated with each FlashTAP developability metric in the nine
+"""Supplementary Table 18 (tab:dev_counts): latents associated with each FlashTAP developability metric in the nine
 hyperparameter-matched SAEs, as a LaTeX table body. Each cell is the number of live latents with |Pearson r| >= 0.20
 and Bonferroni-significant correlation with the metric over the validation sequences, with the number at |r| >= 0.40
 in parentheses when it is not zero (paper.analyses.properties.developability.counts).

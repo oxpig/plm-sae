@@ -1,4 +1,4 @@
-"""Ablation tasks (Supplementary Section A.9): one per single latent (18: the highest-F1 latent of each J gene in each
+"""Ablation tasks (Supplementary Section A.8): one per single latent (18: the highest-F1 latent of each J gene in each
 p-IgGen matched SAE, ablation/single_latents.txt) and one per co-activation group (22: TopK and Batch TopK groups at
 phi >= 0.7 and phi >= 0.5, redundancy/coactivation_groups.txt). Both lists are deposited results (a copy under
 <work_dir>/ takes precedence). Writes <work_dir>/ablation/tasks.txt, one task per line: "kind sae gene latents"

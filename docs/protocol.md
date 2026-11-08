@@ -2,7 +2,7 @@
 
 This page states the steering benchmark and the output selection exactly as the code applies them. Manuscript
 references: Methods "Steering", "Steering benchmark" and "Output-selected latents"; Supplementary "Hyperparameter-matched
-SAEs and steering benchmark", "Steering site and position gate", "Output-selected latents", "Graded steering tasks" and
+SAEs and steering benchmark", "Steering site and position gate", "Output-selected latents", "Additional output-selected latent steering tasks" and
 "Developability liabilities". The numbers below are constants in the code; nothing here is a tunable default.
 
 ## 1. Steering

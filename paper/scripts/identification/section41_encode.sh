@@ -2,7 +2,7 @@
 # Pooled latents of an expansion-32 TopK SAE of Section 4.1 (piggen_topk_r32_layer<L>) for one shard of a labelled
 # split: the SAE reads the output of its p-IgGen block; per latent, the mean of its non-zero activations over the
 # residue positions (POOL nonzero_mean: the linear probe, Table 1) or of its activations over all padded positions
-# (POOL allmean, validation shards only: latent selection, Supplementary Tables 12 and 13). One GPU, under 1.5 hours
+# (POOL allmean, validation shards only: latent selection, Supplementary Tables 21 and 22). One GPU, under 1.5 hours
 # per shard.
 #
 # Usage: paper/scripts/identification/section41_encode.sh TASK [LAYER] [POOL]

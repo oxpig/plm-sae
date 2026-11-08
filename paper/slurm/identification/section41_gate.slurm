@@ -1,6 +1,6 @@
 #!/bin/bash
 # Feature identification gate of the expansion-32 TopK SAE of Section 4.1 (paper/scripts/identification/section41_gate.sh),
-# one array task per layer (3: Table 1; 0-3: Supplementary Table 12). Layers 0-2 need up to 340 GB.
+# one array task per layer (3: Table 1; 0-3: Supplementary Table 21). Layers 0-2 need up to 340 GB.
 #   examples/slurm/submit.sh paper/slurm/identification/section41_gate.slurm --array=3
 #SBATCH --job-name=identification-s41-gate
 #SBATCH --cpus-per-task=16

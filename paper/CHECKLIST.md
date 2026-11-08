@@ -31,7 +31,6 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S6 | `fig:IMGT_IGHJ4_activations` | Token (a) and IMGT (b) positions of IGHJ4 latents 463, 4720, 6276 over 10,269 validation heavy chains | `STAGES=plot paper/scripts/figures/ighj4_positions.sh OUT` (a fresh encode: `STAGES="table encode plot"`, GPU) | `figures/ighj4_positions/` | Reproduced, byte-identical (from the deposited encode) |
 | S7 | `fig:Unsuccessful steering` | Expansion-32 TopK latents 463, 4720, 6276 steered toward IGHJ4 | `paper/scripts/figures/make_steering_figures.sh OUT` | `benchmark/` (set `section41`) | Reproduced, byte-identical |
 | S8 | `fig:IgLM_ad_progen2_activations` | IMGT positions of the top IgLM and ProGen2-OAS TopK IGHJ4 latents | `python -m paper.figures.fig_imgt OUT` | `identification/imgt/imgt_position_counts.json` | Reproduced, byte-identical |
-| S9 | `fig:nested latent activations` | IMGT positions of the highest-F1 Ordered and TopK p-IgGen latents | same | `identification/imgt/mass_<sae>.npz` | Reproduced, byte-identical |
 
 `paper/scripts/figures/make_figures.sh OUT` draws all of them (about a minute on one CPU).
 
@@ -50,18 +49,18 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S9 | `tab:gate` | Steering with and without the position gate | `python -m paper.tables.gate` | `benchmark/final_latents.csv` | Reproduced (5/5 rows and the numbers of the paragraph) |
 | S10 | `tab:t3_output` | Output-selected TopK latent 5141 library against natural sequences | `python -m paper.tables.table3_rows` | as Table 3 | Reproduced (6/6 rows) |
 | S11 | `tab:t3_batch` | Quality of every passing library per model, SAE and set | `python -m paper.analyses.quality.by_set check --tex manuscript.tex` | `quality/` | Reproduced (429/429 cells) |
-| S12 | `tab:IGHJ4_layer_performance` | IGHJ4 features and max F1, p-IgGen layers 0-3 | `paper/scripts/identification/section41_gate.sh <layer>` | `identification/gates/piggen_topk_r32_layer{0,1,2,3}/` | Record values match (features 2, 11, 11, 9; max F1 0.926, 0.970, 0.968, 0.914; selection on the mean over all positions) |
-| S13 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 15, 30, 9, 7, 43; every latent scored) |
-| S14 | `tab:localisation` | J-region share of the highest-F1 latent per gene | `paper/scripts/identification/run_imgt.sh` (CPU, 40 processes) | `identification/imgt/localisation.csv` | Record values match |
-| S15 | `tab:lct_steering` | Light-chain-type steering | `python -m paper.tables.lct_steering` | `benchmark/final_latents.csv` | Reproduced (18/18 rows) |
-| S16 | `tab:splitting` | Dictionary redundancy, nine matched SAEs | `paper/scripts/redundancy/run.sh` | `redundancy/redundancy.csv` | Record values match |
-| S17 | `tab:ablation_single` | Single-latent ablation | `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU), `python -m paper.analyses.ablation.score` | `ablation/results/ablation.csv` | Record values match |
-| S18 | `tab:ablation_cluster` | Co-activation group ablation | as S17 | as S17 | Record values match |
-| S19 | `tab:dev_counts` | Developability latents per SAE | `python -m paper.tables.dev_counts` | `developability/counts/dev_latent_counts.csv` | Reproduced (9/9 rows) |
-| S20 | `tab:dev_latents` | Developability steering, every latent | `python -m paper.tables.outsel_properties` | `outsel_properties/results_dev.csv` | Reproduced (24/24 rows) |
-| S21 | `tab:graded` | Graded CDRH3 steering, passes per set | same | `outsel_properties/results_graded.csv` | Reproduced (9/9 rows) |
-| S22 | `tab:graded_latents` | Graded latents | same | same | Reproduced (27/27 rows) |
-| S23 | `tab:lowindex` | Low-index latents of the Ordered SAEs against the Ordered rows of Table 2 | `python -m paper.benchmark.lowindex summary` (steering: `python -m paper.benchmark.lowindex select`, `tasks`, then the benchmark workers) | `benchmark/lowindex/selection.csv`, `benchmark/final_latents.csv` (set low-index), `progen2_t10/score/latents.csv` (set lowidx) | Reproduced (3/3 rows) |
+| S12 | `tab:graded` | CDRH3 property steering, passes per set | same | `outsel_properties/results_graded.csv` | Reproduced (9/9 rows) |
+| S13 | `tab:graded_latents` | CDRH3 property latents | same | same | Reproduced (27/27 rows) |
+| S14 | `tab:lct_steering` | Light-chain-type steering | `python -m paper.tables.lct_steering` | `benchmark/final_latents.csv` | Reproduced (18/18 rows) |
+| S15 | `tab:splitting` | Dictionary redundancy, nine matched SAEs | `paper/scripts/redundancy/run.sh` | `redundancy/redundancy.csv` | Record values match |
+| S16 | `tab:ablation_single` | Single-latent ablation | `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU), `python -m paper.analyses.ablation.score` | `ablation/results/ablation.csv` | Record values match |
+| S17 | `tab:ablation_cluster` | Co-activation group ablation | as S17 | as S17 | Record values match |
+| S18 | `tab:dev_counts` | Developability latents per SAE | `python -m paper.tables.dev_counts` | `developability/counts/dev_latent_counts.csv` | Reproduced (9/9 rows) |
+| S19 | `tab:dev_latents` | Developability steering, every latent | `python -m paper.tables.outsel_properties` | `outsel_properties/results_dev.csv` | Reproduced (24/24 rows) |
+| S20 | `tab:lowindex` | Low-index latents of the Ordered SAEs against the Ordered rows of Table 2 | `python -m paper.benchmark.lowindex summary` (steering: `python -m paper.benchmark.lowindex select`, `tasks`, then the benchmark workers) | `benchmark/lowindex/selection.csv`, `benchmark/final_latents.csv` (set low-index), `progen2_t10/score/latents.csv` (set lowidx) | Reproduced (3/3 rows) |
+| S21 | `tab:IGHJ4_layer_performance` | IGHJ4 features and max F1, p-IgGen layers 0-3 | `paper/scripts/identification/section41_gate.sh <layer>` | `identification/gates/piggen_topk_r32_layer{0,1,2,3}/` | Record values match (features 2, 11, 11, 9; max F1 0.926, 0.970, 0.968, 0.914; selection on the mean over all positions) |
+| S22 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 15, 30, 9, 7, 43; every latent scored) |
+| S23 | `tab:localisation` | J-region share of the highest-F1 latent per gene | `paper/scripts/identification/run_imgt.sh` (CPU, 40 processes) | `identification/imgt/localisation.csv` | Record values match |
 
 `paper/scripts/figures/make_tables.sh` runs every "Reproduced" table command. With `MANUSCRIPT=manuscript.tex` it also
 checks Supplementary Table 11 and the binder numbers against the manuscript.
@@ -72,7 +71,8 @@ checks Supplementary Table 11 and the binder numbers against the manuscript.
 |---|---|---|
 | Section 4.1 CDR identity probe, IMGT CDRs (latents 0.999, neurons 0.998) | `paper/scripts/identification/section41_analyses.sh cdr` (GPU) -> `identification/cdr_probe/` | Record values match |
 | Section 4.2.1, expansion-32 TopK SAE: 6 of 18 latents, genes IGHJ1, IGHJ3, IGHJ4, IGHJ6 | `python -m paper.tables.section41_steering` | Reproduced |
-| A.13 and Supplementary Table 23, low-index Ordered latents (4, 7, 6 of 18; 17 of 54; p = 1.0 and 0.36) | `python -m paper.benchmark.lowindex summary` | Reproduced |
+| Algorithm 1 and the output-selected sets (54 J-gene, 9 CDRH3 and 12 developability picks) | `python -m paper.benchmark.check_picks` | Reproduced (75/75 picks) |
+| A.11 and Supplementary Table 20, low-index Ordered latents (4, 7, 6 of 18; 17 of 54; p = 1.0 and 0.36) | `python -m paper.benchmark.lowindex summary` | Reproduced |
 | Sections 4.2.3 and 4.3, Mantel-Haenszel p (1.0, 0.28, 0.41; output-selected < 0.001) | `python -m paper.tables.benchmark_tests` | Reproduced |
 | Sections 4.2.3 and 4.3, library medians | `python -m paper.tables.table3_rows` | Reproduced |
 | A.3 position gate paragraph (15 and 13 of 54, p = 0.69; baseline 16 and 14; TV 0.101 and 0.024, 0.087 and 0.023; IgLM 22 to 11, 39 to 25, 16 to 15) | `python -m paper.tables.gate` | Reproduced |
@@ -82,6 +82,6 @@ checks Supplementary Table 11 and the binder numbers against the manuscript.
 | A.4 natural scale (21.8 times) | `python -m paper.benchmark.natural_scale compare` | Reproduced |
 | A.4 windowed steering (10 and 10; 13 and 10; 40 and 25) | `python -m paper.tables.benchmark_tests` | Reproduced |
 | A.4 generation quality by set | `python -m paper.analyses.quality.by_set pool` | Reproduced |
-| A.8 joint steering | `python -m paper.tables.joint_steering` | Reproduced |
-| A.11 binder status | `python -m paper.analyses.binder.probe report --tex manuscript.tex`; rerun: `paper/scripts/binder/probe.sh` | Reproduced (10/10 numbers) |
+| A.7 joint steering | `python -m paper.tables.joint_steering` | Reproduced |
+| A.10 binder status | `python -m paper.analyses.binder.probe report --tex manuscript.tex`; rerun: `paper/scripts/binder/probe.sh` | Reproduced (10/10 numbers) |
 | Other numbers | the stage commands in `README.md` | Code present; deposited outputs |

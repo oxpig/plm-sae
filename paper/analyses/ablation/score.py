@@ -1,4 +1,4 @@
-"""Single-latent and co-activation group ablation, p-IgGen (Supplementary Tables 17 and 18): the target gene's share of
+"""Single-latent and co-activation group ablation, p-IgGen (Supplementary Tables 16 and 17): the target gene's share of
 the ANARCI heavy chains (chain_type H) at strength 0 (control) and 1 (ablated), Yates chi-squared on the 2x2 table.
 Reads the libraries of paper/scripts/ablation/ablate.sh (<work_dir>/ablation/piggen/ablation_{single,group}/, or
 --libraries DIR holding ablation_single/ and ablation_group/). Writes <work_dir>/ablation/results/ablation.csv

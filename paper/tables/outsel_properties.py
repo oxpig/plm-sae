@@ -1,10 +1,10 @@
-"""Supplementary Tables 20-22 (developability metrics and graded CDRH3 properties; output-selected, highest-F1 and
+"""Supplementary Tables 12, 13 and 19 (CDRH3 properties and developability metrics; output-selected, highest-F1 and
 baseline latents of the p-IgGen SAEs) from the property results (paper.analyses.properties.outsel.analyze):
 outsel_properties/results_graded.csv (Y-rich, positive and long CDRH3) and results_dev.csv (FlashTAP metrics).
 Writes, in <work_dir>/tables/outsel_properties:
-  tab_graded.tex          Supplementary Table 21 (latents passing per set, top 1 / 2 / 3, both criteria in parentheses)
-  tab_graded_latents.tex  Supplementary Table 22 (every graded latent: base -> value at alpha*, alpha*, verdict)
-  tab_dev_latents.tex     Supplementary Table 20 (every developability latent)
+  tab_graded.tex          Supplementary Table 12 (latents passing per set, top 1 / 2 / 3, both criteria in parentheses)
+  tab_graded_latents.tex  Supplementary Table 13 (every CDRH3 property latent: base -> value at alpha*, alpha*, verdict)
+  tab_dev_latents.tex     Supplementary Table 19 (every developability latent)
 and prints the per-set counts quoted in the text. Usage: python -m paper.tables.outsel_properties"""
 import pandas as pd
 

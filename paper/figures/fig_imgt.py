@@ -1,11 +1,11 @@
-"""IMGT activation figures (Supplementary Figures 8 and 9): bars over IMGT positions, the most active position
+"""IMGT activation figures (Supplementary Figure 8; the Ordered-versus-TopK panel is no longer in the manuscript): bars over IMGT positions, the most active position
 highlighted and named in a legend, "Activation positions for latent N" titles. Quantity: percentage of the latent's
 total activation at each IMGT position over validation sequences of the gene (the quantity of the localisation table).
 Data: identification/imgt/mass_<sae>.npz (p-IgGen; paper.analyses.identification.localisation) and
 identification/imgt/imgt_position_counts.json (IgLM, ProGen2-OAS; paper.analyses.identification.imgt_position_counts),
 from <work_dir> where present, else <results_dir>.
 Usage: python -m paper.figures.fig_imgt OUTDIR
-Outputs: OUTDIR/fig_imgt_ordered_topk.png (Supplementary Figure 9), OUTDIR/fig_imgt_xmodel.png (Supplementary
+Outputs: OUTDIR/fig_imgt_ordered_topk.png (not in the manuscript), OUTDIR/fig_imgt_xmodel.png (Supplementary
 Figure 8); prints the top position and its share for every panel."""
 import json
 import os

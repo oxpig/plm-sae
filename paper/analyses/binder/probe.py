@@ -1,4 +1,4 @@
-"""Binder status on the hyperparameter-matched p-IgGen SAEs (Supplementary Section A.11): a logistic-regression probe
+"""Binder status on the hyperparameter-matched p-IgGen SAEs (Supplementary Section A.10): a logistic-regression probe
 over the whole dictionary and the per-latent F1 gate on the binder label, for the TopK (piggen_topk_r8) and Ordered
 (piggen_ordered_r8) SAEs.
 
@@ -15,7 +15,7 @@ run     python -m paper.analyses.binder.probe run SAE [--ncpu 16]
         writes <work_dir>/binder/<sae>/{summary.json, probe_summary.json, f1_scores_class_binder.csv,
         f1_all_latents.csv, probe_coef.npy, oof.npy} (CPU, 16 cores, 64 GB, about 6 min per SAE)
 report  python -m paper.analyses.binder.probe report [--tex manuscript.tex]
-        prints the numbers of Supplementary Section A.11 (from <work_dir>, else <results_dir>); with --tex, checks
+        prints the numbers of Supplementary Section A.10 (from <work_dir>, else <results_dir>); with --tex, checks
         that each appears in the binder subsection"""
 import argparse
 import glob
@@ -176,7 +176,7 @@ def report(tex):
     i = t.index("\\label{supp:binder}")
     body = t[i:t.index("\\subsection", i + 1)]
     miss = [v for v in vals if v not in body]
-    print(f"Supplementary A.11 binder numbers: {len(vals) - len(miss)}/{len(vals)} found in the text", *(["missing:"] + miss if miss else []))
+    print(f"Supplementary A.10 binder numbers: {len(vals) - len(miss)}/{len(vals)} found in the text", *(["missing:"] + miss if miss else []))
     return len(miss)
 
 

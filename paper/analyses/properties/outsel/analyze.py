@@ -1,4 +1,4 @@
-"""Readouts and criteria of the property runs (Supplementary Sections A.10 and A.12).
+"""Readouts and criteria of the property runs (Supplementary Sections A.5 and A.9).
 Per library: numbered human heavy chains with J identity >= 0.5 (paper.benchmark.analyze_final.lib_stats n_Hj; coverage
 = n_Hj / 1,000 per seed), heavy chains with a parsed CDRH3 and their Y-rich, positive and long counts
 (paper.analyses.properties.props), and for developability runs the median FlashTAP metric over the scored sequences

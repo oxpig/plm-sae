@@ -1,6 +1,6 @@
 #!/bin/bash
 # Binder probe and binder-label feature gate of the hyperparameter-matched p-IgGen TopK and Ordered SAEs
-# (Supplementary Section A.11; CPU).   examples/slurm/submit.sh paper/slurm/properties/binder_probe.slurm
+# (Supplementary Section A.10; CPU).   examples/slurm/submit.sh paper/slurm/properties/binder_probe.slurm
 #SBATCH --job-name=binder-probe
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64G

@@ -7,7 +7,7 @@
 #   Supplementary Figure 4              paper.analyses.quality.by_set pool, then paper.figures.fig_quality_violins
 #   Supplementary Figure 6              paper/scripts/figures/ighj4_positions.sh, plot stage (a fresh encode:
 #                                       STAGES="table encode plot", paper/slurm/figures/ighj4_positions.slurm)
-#   Supplementary Figures 8 and 9       paper.figures.fig_imgt
+#   Supplementary Figure 8              paper.figures.fig_imgt
 # Usage: paper/scripts/figures/make_figures.sh [OUTDIR]
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../env.sh"

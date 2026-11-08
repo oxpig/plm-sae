@@ -1,5 +1,4 @@
-"""Steering at the input of the final layer does not act through the steered latent (Supplementary Section A.3,
-"Steering site"). Teacher-forced, for the highest-F1 latent of each gene and matched SAE, on 48 human validation heavy
+"""Steering at the input of the final layer does not act through the steered latent (an analysis no longer reported in the manuscript; it was in Supplementary Section A.3 until 2026-11-06). Teacher-forced, for the highest-F1 latent of each gene and matched SAE, on 48 human validation heavy
 chains: the vector alpha * d (d = unit decoder vector; alpha 6.5 p-IgGen, 12 IgLM, 24 ProGen2-OAS) is added at the input
 of the final layer and
   FULL   the next-token distribution with that steering,

@@ -1,5 +1,5 @@
 """Sequence-level F1 of every latent of the three p-IgGen matched SAEs for the CDRH3 properties (Supplementary
-Section A.12): 3,000 validation heavy chains (random_state 0) with a parsed CDRH3 (paper.analyses.properties.props)
+Section A.5): 3,000 validation heavy chains (random_state 0) with a parsed CDRH3 (paper.analyses.properties.props)
 through p-IgGen ('1' + VH + '2', final-layer-norm output / norm factor, one sequence per encode() call), labelled
 Y-rich (tyrosine share >= 0.2), positive (K + R - D - E >= +1) and long (>= 18 residues). A latent predicts the property
 if it fires at any of the tokens 0 .. len(VH).

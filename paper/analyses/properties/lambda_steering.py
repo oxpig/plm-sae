@@ -1,4 +1,4 @@
-"""Steering lambda light chains in p-IgGen (Supplementary Section A.12, "Lambda light chains": 0 of 9).
+"""Steering lambda light chains in p-IgGen (0 of 9; the paragraph reporting this was removed from the manuscript on 2026-11-08).
   tasks   the three lambda latents of each p-IgGen SAE (identification/pairs/pairs_<sae>_lct.txt), steered from the
           start of the SAE's highest-F1 lambda latent (positions/piggen_generic_positions.csv), alpha 0-120 in steps of
           8, seeds 0-2: one task per SAE in <work_dir>/lambda/tasks/ (run with scripts/generation/run_queued_task.sh)

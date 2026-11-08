@@ -8,16 +8,16 @@
 #   Supplementary Table 8 (tab:rl_depth)            python -m paper.tables.rl_depth
 #   Supplementary Table 9 (tab:gate)                python -m paper.tables.gate
 #   Supplementary Table 11 (tab:t3_batch)           python -m paper.analyses.quality.by_set check --tex $MANUSCRIPT
-#   Supplementary Table 15 (tab:lct_steering)       python -m paper.tables.lct_steering
-#   Supplementary Table 19 (tab:dev_counts)         python -m paper.tables.dev_counts
-#   Supplementary Tables 20-22                      python -m paper.tables.outsel_properties
+#   Supplementary Table 14 (tab:lct_steering)       python -m paper.tables.lct_steering
+#   Supplementary Table 18 (tab:dev_counts)         python -m paper.tables.dev_counts
+#   Supplementary Tables 12, 13 and 19              python -m paper.tables.outsel_properties
 #   Section 4.2.1, expansion-32 TopK steering       python -m paper.tables.section41_steering
 #   Sections 4.2.3 and 4.3, Mantel-Haenszel tests   python -m paper.tables.benchmark_tests
 #   Supplementary A.4, natural scale                python -m paper.benchmark.natural_scale compare
 #   Supplementary A.4, CDRH3 homopolymers           python -m paper.benchmark.homopolymer summary
 #   Supplementary A.4, stricter readout             python -m paper.benchmark.strict summary
-#   Supplementary A.8, joint steering               python -m paper.tables.joint_steering
-#   Supplementary A.11, binder status               python -m paper.analyses.binder.probe report
+#   Supplementary A.7, joint steering               python -m paper.tables.joint_steering
+#   Supplementary A.10, binder status               python -m paper.analyses.binder.probe report
 #   Output selection reproduces the steered sets    python -m paper.benchmark.check_picks
 # Usage: [MANUSCRIPT=path/manuscript.tex] paper/scripts/figures/make_tables.sh
 set -euo pipefail

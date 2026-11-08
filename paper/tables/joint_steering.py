@@ -1,4 +1,4 @@
-"""Joint steering of co-activating latent groups (Supplementary Section A.8, paragraph "Redundancy at the sequence level
+"""Joint steering of co-activating latent groups (Supplementary Section A.7, paragraph "Redundancy at the sequence level
 does not translate into joint control"): the numbers of the paragraph, from benchmark/final_latents.csv (set joint).
 Prints key: value lines and writes <work_dir>/tables/joint_steering.json:
   joint_n / joint_corr / joint_mag      groups steered / passing the correlation / both criteria

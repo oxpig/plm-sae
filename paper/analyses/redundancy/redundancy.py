@@ -1,5 +1,5 @@
-"""Dictionary redundancy of the nine hyperparameter-matched SAEs (Supplementary Table 16, Section 4.2.2, Supplementary
-Section A.8). Dead latents are those never nonzero at a real-token position of the 30,754 validation sequences (the
+"""Dictionary redundancy of the nine hyperparameter-matched SAEs (Supplementary Table 15, Section 4.2.2, Supplementary
+Section A.7). Dead latents are those never nonzero at a real-token position of the 30,754 validation sequences (the
 '<arch>|real' firing counts of identification/reconstruction/fire_counts_<model>.npz, plm_sae.training.reconstruction).
 Geometric redundancy: median over non-dead latents of the largest decoder cosine to any other non-dead latent.
 Co-firing redundancy: each latent is binarised at the threshold of its best-F1 gene in the J-gene identification gate

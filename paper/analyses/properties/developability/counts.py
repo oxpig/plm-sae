@@ -1,4 +1,4 @@
-"""Latents associated with each FlashTAP metric in the nine hyperparameter-matched SAEs (Supplementary Table 19):
+"""Latents associated with each FlashTAP metric in the nine hyperparameter-matched SAEs (Supplementary Table 18):
 |Pearson r| >= 0.40 (and >= 0.20) with Bonferroni-corrected p < 0.05 over the live latents. A latent is dead if it
 never fires at a residue of the 30,754 validation sequences (firing counts '<SAE>|real' of
 identification/reconstruction/fire_counts_<model>.npz, plm_sae.training.reconstruction).

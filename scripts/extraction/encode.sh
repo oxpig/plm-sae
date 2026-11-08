@@ -8,7 +8,7 @@
 # Usage: scripts/extraction/encode.sh NAME SPLIT [vhvl]
 #   NAME   piggen_{topk,batchtopk,ordered}_r8 | iglm_{...}_r8 | progen2oas_{...}_r8
 #   SPLIT  train (103,055 sequences) | val (30,754)
-#   vhvl   p-IgGen light-chain-type gate (Supplementary Section A.7): paired VH+VL of vj_<SPLIT>_anarci_lct.csv
+#   vhvl   p-IgGen light-chain-type gate (Supplementary Section A.6): paired VH+VL of vj_<SPLIT>_anarci_lct.csv
 #          (datasets, from paper.analyses.identification.add_light_chain_type), a seed-42 sample of 6,000 training or 4,000 validation sequences
 # Output: $PLM_SAE_ACTIVATIONS/NAME/SPLIT[_vhvl]/<orig_row>.npy. Disk: p-IgGen about 8.6 MB per sequence (265 GB for
 # val, 890 GB for train).

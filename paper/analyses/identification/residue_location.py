@@ -1,4 +1,4 @@
-"""Where on the heavy chain latents of the TopK SAE of Section 4.1 fire (Supplementary Section A.5: IGHJ4 latents 463,
+"""Where on the heavy chain latents of the TopK SAE of Section 4.1 fire (Supplementary Section A.12: IGHJ4 latents 463,
 4720 and 6276 peak at IMGT 120, 119 and 117).
   measure   4,000 validation heavy chains (random_state 0) with a J call, IMGT-numbered with ANARCI, encoded as
             '1' + VH + '2' by p-IgGen; the SAE reads the output of block 3. Per gene, IMGT position (0-128) and latent,

@@ -1,5 +1,5 @@
 """Latent sets and GPU tasks for steering CDRH3 properties (Yrich, positive, long) and developability metrics (PPC, PNC,
-PSH, SFvCSP) in p-IgGen (Supplementary Sections A.10 and A.12). CPU.
+PSH, SFvCSP) in p-IgGen (Supplementary Sections A.5 and A.9). CPU.
 
 Per SAE and target, three sets of three latents, all steered from one start:
   id_r1-3    CDRH3 properties only: the latents with the highest sequence-level F1 for the property

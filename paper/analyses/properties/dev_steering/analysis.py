@@ -1,4 +1,4 @@
-"""Steering the PSH-associated latents of p-IgGen (Supplementary Section A.10, "Steering associated latents"): TopK
+"""Steering the PSH-associated latents of p-IgGen (Supplementary Section A.9, "Steering associated latents"): TopK
 latent 980 and Batch TopK latent 1088, steered in the benchmark (set developability), scored with FlashTAP
 (paper/scripts/properties/dev_score.sh: <work_dir>/benchmark/dev_scores/f<latent>/).
   trend      per seed and seeds pooled, Spearman's rho of the median PSH against alpha over alpha 0 .. valid_amax (the

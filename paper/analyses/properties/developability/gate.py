@@ -1,4 +1,4 @@
-"""Developability gate of one hyperparameter-matched SAE (Supplementary Section A.10, Supplementary Table 19): the
+"""Developability gate of one hyperparameter-matched SAE (Supplementary Section A.9, Supplementary Table 18): the
 Pearson correlation of every latent's pooled activation (mean over the positions of each of the 30,754 validation
 sequences; <work_dir>/activations/<sae>/val/) with each FlashTAP metric of the paired sequence
 (developability/flashtap/flashtap_val_scores.csv, paper.analyses.properties.developability.flashtap_val), with its

@@ -1,4 +1,4 @@
-"""Feature identification of the expansion-32 TopK SAEs of Section 4.1 (Table 1, Supplementary Tables 12 and 13).
+"""Feature identification of the expansion-32 TopK SAEs of Section 4.1 (Table 1, Supplementary Tables 21 and 22).
 
 Input (paper/scripts/identification/section41_encode.sh, csr shards): per sequence and latent, the mean of the latent's
 non-zero activations over the residue positions (ACT_DIR, the linear probe of step 1) and the mean of its activations over

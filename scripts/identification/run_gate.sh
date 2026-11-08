@@ -1,6 +1,6 @@
 #!/bin/bash
 # Feature identification gate of one hyperparameter-matched SAE (Methods; Supplementary Tables 4-6, the maximum F1 of
-# Section 4.3, the light-chain-type gate of Supplementary Section A.7). plm_sae.features.gate, every latent scored.
+# Section 4.3, the light-chain-type gate of Supplementary Section A.6). plm_sae.features.gate, every latent scored.
 #   scripts/identification/run_gate.sh NAME [j|lct]
 #     j   (default) J-gene gate: labels j_gene_anarci_heavy (the ANARCI heavy-chain J call, allele removed) of
 #         vj_{train,val}_anarci.csv, 10,000 training sequences

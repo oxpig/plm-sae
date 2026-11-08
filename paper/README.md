@@ -66,18 +66,18 @@ from the property baselines).
 1. `bash scripts/extraction/encode.sh <sae> train|val` for the nine SAEs, and `... <p-IgGen sae> train|val vhvl` for
    the light-chain-type gate (GPU).
 2. `bash scripts/identification/run_gate.sh <sae> [j|lct]` (CPU, up to 8 h): J-gene gates (Supplementary Tables 4-6)
-   and light-chain-type gates (Supplementary Section A.7). The J-gene gates label each sequence with its ANARCI
+   and light-chain-type gates (Supplementary Section A.6). The J-gene gates label each sequence with its ANARCI
    heavy-chain J call (`j_gene_anarci_heavy`, allele removed), so the latent ranking, the pair lists of step 3 and
    everything the benchmark steers follow the ANARCI call.
 3. `bash paper/scripts/identification/make_pair_lists.sh`: the ranked latents the benchmark steers.
 4. `bash scripts/identification/run_reconstruction.sh <model>` (GPU): FVU, L0 and dead latents (Supplementary
    Tables 4 and 5) and the firing counts used by the developability counts and the redundancy analysis.
 5. Section 4.1: `paper/scripts/identification/section41_encode.sh <task> [layer]` (32 shards, GPU),
-   `section41_gate.sh [layer]` (Table 1, Supplementary Tables 12 and 13), and `section41_analyses.sh cdr|residue|stats`
+   `section41_gate.sh [layer]` (Table 1, Supplementary Tables 21 and 22), and `section41_analyses.sh cdr|residue|stats`
    (CDR identity probe, IMGT positions of latents 463, 4720 and 6276, the statistics in the Supplementary Table 4
    caption).
 6. `bash paper/scripts/figures/encode_ighj4_tokens.sh <iglm_topk_r8|progen2oas_topk_r8>` (GPU), then
-   `bash paper/scripts/identification/run_imgt.sh` (CPU): Supplementary Table 14 and Supplementary Figures 8 and 9.
+   `bash paper/scripts/identification/run_imgt.sh` (CPU): Supplementary Table 23 and Supplementary Figure 8.
 
 ## Steering benchmark
 `B` is `<work_dir>/benchmark`. GPU steps take 10 to 60 minutes per model on one 24 GB GPU. Generation runs as task
@@ -110,24 +110,24 @@ header: natural references, the library list, the metrics of each library, then 
 Tables 10 and 11, Supplementary Figure 4).
 
 ## Properties
-- Developability gate (Supplementary Section A.10, Supplementary Table 19): `paper/scripts/properties/flashtap_val.sh`
+- Developability gate (Supplementary Section A.9, Supplementary Table 18): `paper/scripts/properties/flashtap_val.sh`
   (GPU), `developability_gate.sh <sae>` for the nine SAEs, then `python -m paper.analyses.properties.developability.counts`.
 - Steering the developability latents 980 and 1088: their libraries come from the benchmark (`make_tasks other`);
   `dev_score.sh 0|1` scores them with FlashTAP, `python -m paper.analyses.properties.dev_steering.analysis trend`,
   `analysis controls`, `dev_ctrl.sh 0..5`, `analysis compare`.
-- Output selection for CDRH3 properties and developability (Supplementary Section A.12, Supplementary Tables 20-22):
+- Output selection for CDRH3 properties and developability (Supplementary Sections A.5 and A.9, Supplementary Tables 12, 13 and 19):
   `python -m paper.analyses.properties.ident_simple`, `python -m paper.analyses.properties.outsel.scores` (GPU),
   `python -m paper.analyses.properties.outsel.manifest`, `paper/scripts/properties/submit_round.sh base`, then
   `round.sh r1`, `round.sh r2`, ... until every run is final, `submit_tap.sh`, and
   `python -m paper.analyses.properties.outsel.analyze`. `python -m paper.analyses.properties.cdr3_check` checks the
   CDRH3 parser on the validation heavy chains.
-- Lambda light chains: `python -m paper.analyses.properties.lambda_steering tasks`, workers, then `... score`.
-- Binder status (Supplementary Section A.11): `paper/scripts/binder/probe.sh` (CPU).
+- Lambda light chains: `python -m paper.analyses.properties.lambda_steering tasks`, workers, then `... score` (not reported in the manuscript since 2026-11-08).
+- Binder status (Supplementary Section A.10): `paper/scripts/binder/probe.sh` (CPU).
 
 ## Ablation and redundancy
 `python -m paper.analyses.ablation.make_tasks`, `paper/slurm/ablation/ablate.slurm` (GPU, 40 tasks), then
-`python -m paper.analyses.ablation.score` (Supplementary Tables 17 and 18). `paper/scripts/redundancy/run.sh`:
-dictionary redundancy (Supplementary Table 16). The 20 co-activation groups are an input of the record
+`python -m paper.analyses.ablation.score` (Supplementary Tables 16 and 17). `paper/scripts/redundancy/run.sh`:
+dictionary redundancy (Supplementary Table 15). The 20 co-activation groups are an input of the record
 (`redundancy/coactivation_groups.txt`).
 
 ## Tables and figures
@@ -135,5 +135,5 @@ dictionary redundancy (Supplementary Table 16). The 20 co-activation groups are 
 its command and input.
 
 ## Tests
-- `python tests/run_tests.py` checks that every module imports, rebuilds Table 2 and Supplementary Tables 7, 8 and
-  19-22 from small fixtures, and reproduces the output-selected latents.
+- `python tests/run_tests.py` checks that every module imports, rebuilds Table 2 and Supplementary Tables 7, 8, 12, 13, 18 and
+  19 from small fixtures, and reproduces the output-selected latents.

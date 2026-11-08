@@ -1,5 +1,5 @@
 """Check of the CDRH3 parser (paper.analyses.properties.props) against the IMGT CDR3 (positions 105-117 with
-insertions), Supplementary Section A.12, over all 30,754 validation heavy chains: the IMGT CDR3 comes from the aligned
+insertions), Supplementary Section A.5, over all 30,754 validation heavy chains: the IMGT CDR3 comes from the aligned
 heavy chains of the IMGT table (paper.analyses.identification.imgt.build_alignment_map), or from a fresh ANARCI run
 (IMGT scheme) where the aligned residues differ from the sequence.
 Compared: parsed CDRH3 of 3-30 residues against IMGT CDR3 of 3-30 residues flanked by C and W in the sequence, over the

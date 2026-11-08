@@ -1,5 +1,5 @@
 #!/bin/bash
-# IMGT localisation (Supplementary Table 14, the data of Supplementary Figures 8 and 9, the "five of six" of
+# IMGT localisation (Supplementary Table 23, the data of Supplementary Figure 8, the "five of six" of
 # Section 4.3). CPU, 40 processes.
 # Needs the IMGT table datasets/master_Dec13_10.31.csv, the per-token validation latents of the p-IgGen SAEs
 # (<work_dir>/activations/piggen_*_r8/val/) and the IGHJ4 token latents of the IgLM and ProGen2-OAS TopK SAEs

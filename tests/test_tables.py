@@ -42,9 +42,9 @@ def test_supplementary_tables_20_21_22(tmp_path):
     from paper.tables import outsel_properties as op
     U = FIXTURES / "results" / "outsel_properties"
     G, D = pd.read_csv(U / "results_graded.csv"), pd.read_csv(U / "results_dev.csv")
-    assert op.tab_graded(G) == expected("tab_graded.tex")                  # Supplementary Table 21
-    assert op.tab_graded_latents(G) == expected("tab_graded_latents.tex")  # Supplementary Table 22
-    assert op.tab_dev_latents(D) == expected("tab_dev_latents.tex")        # Supplementary Table 20
+    assert op.tab_graded(G) == expected("tab_graded.tex")                  # Supplementary Table 12
+    assert op.tab_graded_latents(G) == expected("tab_graded_latents.tex")  # Supplementary Table 13
+    assert op.tab_dev_latents(D) == expected("tab_dev_latents.tex")        # Supplementary Table 19
     out = run("paper.tables.outsel_properties", tmp_path) / "outsel_properties"
     for f in ("tab_graded.tex", "tab_graded_latents.tex", "tab_dev_latents.tex"):
         assert (out / f).read_text() == expected(f), f

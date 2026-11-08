@@ -1,4 +1,4 @@
-"""Sequence properties for the graded steering tasks. Heavy chain = first 140 residues of a p-IgGen output
+"""Sequence properties for the CDRH3 property steering tasks. Heavy chain = first 140 residues of a p-IgGen output
 (VH + VL concatenated) or a VH. CDR3 = residues after the last C that lies 6-30 residues before the FR4 W[GA]xG
 (first such motif after residue 90) up to that W, exclusive (IMGT 105-117). Light chain = residues after the heavy
 chain's FR4 ...VTVSS (p-IgGen paired output). kappa/lambda from the light chain's FR4 end."""

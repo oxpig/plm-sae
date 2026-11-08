@@ -3,7 +3,7 @@
 #   pairs_<sae>_top5.txt  the five highest-F1 latents per J gene, nine matched SAEs (ranks 1-3 are steered and reported;
 #                         ranks 4-5 are excluded from the baseline draw)
 #   pairs_<sae>_lct.txt   the three highest-F1 latents per light-chain type, p-IgGen SAEs
-#   rank_latents_463_4720_6276.csv  F1 ranks of three IGHJ4 latents of the Section 4.1 SAE (Supplementary Section A.5)
+#   rank_latents_463_4720_6276.csv  F1 ranks of three IGHJ4 latents of the Section 4.1 SAE (Supplementary Section A.12)
 # Writes <work_dir>/identification/pairs/.
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/../env.sh"

@@ -1,4 +1,4 @@
-"""Latent ablation during p-IgGen generation (Supplementary Section A.9, Supplementary Tables 17 and 18): one latent
+"""Latent ablation during p-IgGen generation (Supplementary Section A.8, Supplementary Tables 16 and 17): one latent
 (the highest-F1 latent of a gene) or a co-activation group (several latents, ablated together).
 
 At every generation step the final-layer-norm output h is encoded with the SAE and the latents' contribution is

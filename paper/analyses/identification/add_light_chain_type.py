@@ -1,4 +1,4 @@
-"""Light-chain type labels (Supplementary Section A.7): vj_{train,val}_anarci_lct.csv = vj_{train,val}_anarci.csv with
+"""Light-chain type labels (Supplementary Section A.6): vj_{train,val}_anarci_lct.csv = vj_{train,val}_anarci.csv with
 a column light_chain_type, kappa for light_v_gene IGKV* and lambda for IGLV*; stops if any light_v_gene has neither
 prefix. The data record holds these two tables (datasets/); this script derives them.
 Usage: python -m paper.analyses.identification.add_light_chain_type [--out_dir DIR]   (default <data_dir>/datasets)"""

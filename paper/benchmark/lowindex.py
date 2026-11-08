@@ -1,4 +1,4 @@
-"""Low-index selection for the Ordered SAEs (Supplementary Section A.4, "Low-index latents"). The Ordered objective puts
+"""Low-index selection for the Ordered SAEs (Supplementary Section A.11). The Ordered objective puts
 coarse structure in the lowest-index latents, so the index is itself a selection criterion: for each J gene, the three
 lowest-index latents among its 50 highest-F1 latents (identification/gates/<SAE>/f1_scores/, the ANARCI ranking of the
 benchmark). They are steered under each model's reported protocol (p-IgGen gated, IgLM ungated, ProGen2-OAS at temperature
