@@ -32,7 +32,7 @@ def load():
 
 
 def per_sae_rows(PL, D, nat):
-    """Supplementary Table 11 per SAE and set (median over latents of library mean and of |r|; p < 0.05 share)."""
+    """Supplementary Table 11 per SAE and set (median over latents of library mean and of |r|)."""
     T = []
     for m, sets in SETS.items():
         pn = PL[PL.model == m]; natv = pn.groupby("metric").mean_ref.first()
@@ -47,9 +47,8 @@ def per_sae_rows(PL, D, nat):
                 for k in MET:
                     z = p[p.metric == k]
                     if len(z): ex[f"{k}_mean"] = z.mean_steered.median(); ex[f"{k}_r"] = z.rank_biserial.abs().median()
-                k_ = int((p.p < 0.05).sum()) + int((d.p < 0.05).sum()); n_ = len(p) + len(d)
                 T.append(dict(model=m, set="Unsteered" if s == "unsteered" else sets[s], arch="" if s == "unsteered" else a,
-                              n=len(d), **ex, ablang_mean=d["mean"].median(), ablang_r=d.r.abs().median(), share=f"{k_}/{n_}"))
+                              n=len(d), **ex, ablang_mean=d["mean"].median(), ablang_r=d.r.abs().median()))
     return pd.DataFrame(T)
 
 
@@ -74,13 +73,12 @@ def pooled(X, PL, nat):
         r0["ablang_mean"] = np.nanmean(nat["paired" if m == "piggen" else "heavy"]); rows.append(r0)
         for s in ["Unsteered", "Highest F1", "Baseline", "Output-selected", "All passing"]:
             y = x[x.set_label == s] if s != "All passing" else x[x.set_label != "Unsteered"]
-            r = dict(model=MN[m], set=s, n=int((y.metric == "ablang").sum())); k_sig = n_cmp = 0
+            r = dict(model=MN[m], set=s, n=int((y.metric == "ablang").sum()))
             for k in MET + ["ablang"]:
                 z = y[y.metric == k]
                 if not len(z): continue
                 r[f"{k}_mean"] = z["mean"].median(); r[f"{k}_r"] = z.r.abs().median(); r[f"{k}_n"] = len(z)
-                k_sig += int((z.p < 0.05).sum()); n_cmp += len(z)
-            r["share"] = f"{k_sig}/{n_cmp}"; rows.append(r)
+            rows.append(r)
     T = pd.DataFrame(rows)
     for m in SETS:   # heavy-chain models have no VL column
         if m != "piggen": T.loc[T.model == MN[m], [c for c in T.columns if c.startswith("VL_")]] = np.nan
@@ -110,7 +108,6 @@ def check(tex):
         for k in MET + ["ablang"]:
             if m != "piggen" and k == "VL_hamming_to_test": mine += ["--", "" if sae == "Natural" else "--"]; continue
             mine += [_fmt(t[f"{k}_mean"], DG[k]), "" if sae == "Natural" else f"{t[f'{k}_r']:.2f}"]
-        mine.append("" if sae == "Natural" else t.share)
         for a, b in zip(c[3:], mine):
             n += 1
             if a.replace(" ", "") != b.replace(" ", ""): bad += 1; print("MISMATCH", model, sae, setl, repr(a), repr(b))
@@ -126,7 +123,7 @@ def main(argv=None):
     PL, D, nat = load(); X = long_table(PL, D); T = pooled(X, PL, nat)
     o = Path(a.out) if a.out else P.work("quality", "by_set"); o.mkdir(parents=True, exist_ok=True)
     X.to_csv(o / "per_library_long.csv", index=False); T.to_csv(o / "quality_by_set.csv", index=False)
-    print(T[["model", "set", "n", "VH_hamming_to_test_mean", "ablang_mean", "share"]].to_string(index=False)); print("wrote", o)
+    print(T[["model", "set", "n", "VH_hamming_to_test_mean", "ablang_mean"]].to_string(index=False)); print("wrote", o)
 
 
 if __name__ == "__main__":

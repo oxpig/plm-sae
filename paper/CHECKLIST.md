@@ -49,7 +49,7 @@ table, every figure; CPU, a few minutes). Regenerating the inputs: `paper/reprod
 | S8 | `tab:rl_depth` | Passing latents among ranks 1, 1-2, 1-3 | `python -m paper.tables.rl_depth` | same | Reproduced (11/11 rows) |
 | S9 | `tab:gate` | Steering with and without the position gate | `python -m paper.tables.gate` | `benchmark/final_latents.csv` | Reproduced (5/5 rows and the numbers of the paragraph) |
 | S10 | `tab:t3_output` | Output-selected TopK latent 5141 library against natural sequences | `python -m paper.tables.table3_rows` | as Table 3 | Reproduced (6/6 rows) |
-| S11 | `tab:t3_batch` | Quality of every passing library per model, SAE and set | `python -m paper.analyses.quality.by_set check --tex manuscript.tex` | `quality/` | Reproduced (462/462 cells) |
+| S11 | `tab:t3_batch` | Quality of every passing library per model, SAE and set | `python -m paper.analyses.quality.by_set check --tex manuscript.tex` | `quality/` | Reproduced (429/429 cells) |
 | S12 | `tab:IGHJ4_layer_performance` | IGHJ4 features and max F1, p-IgGen layers 0-3 | `paper/scripts/identification/section41_gate.sh <layer>` | `identification/gates/piggen_topk_r32_layer{0,1,2,3}/` | Record values match (features 2, 11, 11, 9; max F1 0.926, 0.970, 0.968, 0.914; selection on the mean over all positions) |
 | S13 | `tab:ighj-features` | Layer-3 feature counts and max F1 per gene | as Table 1 | `identification/gates/piggen_topk_r32_layer3/` | Record values match (counts 8, 15, 30, 9, 7, 43; every latent scored) |
 | S14 | `tab:localisation` | J-region share of the highest-F1 latent per gene | `paper/scripts/identification/run_imgt.sh` (CPU, 40 processes) | `identification/imgt/localisation.csv` | Record values match |
