@@ -8,7 +8,7 @@ SAE latents that track antibody properties such as the heavy J gene, and steers 
 three SAE architectures: TopK, Batch TopK and Ordered.
 
 Data (datasets, SAE checkpoints, results and steered libraries) and an archived snapshot of this code are on Zenodo:
-**https://doi.org/10.5281/zenodo.23813269**.
+**https://doi.org/10.5281/zenodo.23769036**.
 
 This version (`main`, identical to the `anarci-ranking` branch) ranks the latents of the nine hyperparameter-matched SAEs against the ANARCI
 heavy-chain J call, and its Zenodo record holds the results that follow from that ranking.

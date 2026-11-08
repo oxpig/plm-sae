@@ -3,7 +3,7 @@
 Every numbered figure and table of the manuscript (BIOINF-2026-1349), the command that produces it, the
 result file it reads, and whether it was reproduced from this repository and the data record.
 
-**Data record.** https://doi.org/10.5281/zenodo.23813269. After `paper/reproduce.sh setup RECORD_DIR`, result files sit
+**Data record.** https://doi.org/10.5281/zenodo.23769036. After `paper/reproduce.sh setup RECORD_DIR`, result files sit
 under `<results_dir>` (`data/results/` by default) in the layout the code writes; `results/results_<stage>.tar.gz` holds
 `<stage>/`. Datasets are `datasets/*.csv.gz`, SAE weights `checkpoints/<name>.safetensors`.
 
